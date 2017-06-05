@@ -61,6 +61,7 @@ package org.jfree.date;
 import java.io.Serializable;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -84,6 +85,35 @@ import java.util.GregorianCalendar;
  * @author David Gilbert
  */
 public abstract class DayDate implements Comparable, Serializable, MonthConstants {
+
+    public enum Month {
+        JANUARY(1),
+        FEBRUARY(2),
+        MARCH(3),
+        APRIL(4),
+        MAY(5),
+        JUNE(6),
+        JULY(7),
+        AUGUST(8),
+        SEPTEMBER(9),
+        OCTOBER(10),
+        NOVEMBER(11),
+        DECEMBER(12);
+
+        public final int index;
+
+        Month(int index) {
+            this.index = index;
+        }
+
+        public static Month make(int monthIndex) {
+            return Arrays.stream(Month.values())
+                    .filter(month -> month.index == monthIndex)
+                    .findFirst()
+                    .orElseThrow(() -> new IllegalArgumentException("Invalid month index: " + monthIndex));
+        }
+    }
+
 
     /**
      * For serialization.
