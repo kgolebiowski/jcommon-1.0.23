@@ -65,7 +65,7 @@ public class DayOfWeekInMonthRule extends AnnualDateRule {
      * Default constructor: builds a rule for the first Monday in January by default.
      */
     public DayOfWeekInMonthRule() {
-        this(1, DayDate.MONDAY, DayDate.Month.JANUARY.index);
+        this(1, DayDate.DayOfWeek.MONDAY.index, DayDate.Month.JANUARY.index);
     }
 
     /**

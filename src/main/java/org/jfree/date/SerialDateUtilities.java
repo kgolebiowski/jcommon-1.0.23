@@ -113,25 +113,25 @@ public class SerialDateUtilities {
     public int stringToWeekday(final String s) {
 
         if (s.equals(this.weekdays[Calendar.SATURDAY])) {
-            return DayDate.SATURDAY;
+            return DayDate.DayOfWeek.SATURDAY.index;
         }
         else if (s.equals(this.weekdays[Calendar.SUNDAY])) {
-            return DayDate.SUNDAY;
+            return DayDate.DayOfWeek.SUNDAY.index;
         }
         else if (s.equals(this.weekdays[Calendar.MONDAY])) {
-            return DayDate.MONDAY;
+            return DayDate.DayOfWeek.MONDAY.index;
         }
         else if (s.equals(this.weekdays[Calendar.TUESDAY])) {
-            return DayDate.TUESDAY;
+            return DayDate.DayOfWeek.TUESDAY.index;
         }
         else if (s.equals(this.weekdays[Calendar.WEDNESDAY])) {
-            return DayDate.WEDNESDAY;
+            return DayDate.DayOfWeek.WEDNESDAY.index;
         }
         else if (s.equals(this.weekdays[Calendar.THURSDAY])) {
-            return DayDate.THURSDAY;
+            return DayDate.DayOfWeek.THURSDAY.index;
         }
         else {
-            return DayDate.FRIDAY;
+            return DayDate.DayOfWeek.FRIDAY.index;
         }
 
     }

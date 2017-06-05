@@ -70,7 +70,7 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
      * Default constructor - builds a rule for the Monday following 1 January.
      */
     public RelativeDayOfWeekRule() {
-        this(new DayAndMonthRule(), DayDate.MONDAY, DayDate.FOLLOWING);
+        this(new DayAndMonthRule(), DayDate.DayOfWeek.MONDAY.index, DayDate.FOLLOWING);
     }
 
     /**

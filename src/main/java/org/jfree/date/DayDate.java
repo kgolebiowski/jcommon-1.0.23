@@ -110,7 +110,29 @@ public abstract class DayDate implements Comparable, Serializable {
         public static Optional<Month> make(int monthIndex) {
             return Arrays.stream(Month.values())
                     .filter(month -> month.index == monthIndex)
-                    .findFirst();
+                    .findAny();
+        }
+    }
+    
+    public enum DayOfWeek {
+        MONDAY(Calendar.MONDAY),
+        TUESDAY(Calendar.TUESDAY),
+        WEDNESDAY(Calendar.WEDNESDAY),
+        THURSDAY(Calendar.THURSDAY),
+        FRIDAY(Calendar.FRIDAY),
+        SATURDAY(Calendar.SATURDAY),
+        SUNDAY(Calendar.SUNDAY);
+
+        public final int index;
+
+        DayOfWeek(int dayOfWeekIndex) {
+            this.index = dayOfWeekIndex;
+        }
+
+        public static Optional<DayOfWeek> make(int dayOfWeekIndex) {
+            return Arrays.stream(DayOfWeek.values())
+                    .filter(dayOfWeek -> dayOfWeek.index == dayOfWeekIndex)
+                    .findAny();
         }
     }
 
@@ -135,42 +157,6 @@ public abstract class DayDate implements Comparable, Serializable {
      * The highest year value supported by this date format.
      */
     public static final int MAXIMUM_YEAR_SUPPORTED = 9999;
-
-    /**
-     * Useful constant for Monday. Equivalent to java.util.Calendar.MONDAY.
-     */
-    public static final int MONDAY = Calendar.MONDAY;
-
-    /**
-     * Useful constant for Tuesday. Equivalent to java.util.Calendar.TUESDAY.
-     */
-    public static final int TUESDAY = Calendar.TUESDAY;
-
-    /**
-     * Useful constant for Wednesday. Equivalent to
-     * java.util.Calendar.WEDNESDAY.
-     */
-    public static final int WEDNESDAY = Calendar.WEDNESDAY;
-
-    /**
-     * Useful constant for Thrusday. Equivalent to java.util.Calendar.THURSDAY.
-     */
-    public static final int THURSDAY = Calendar.THURSDAY;
-
-    /**
-     * Useful constant for Friday. Equivalent to java.util.Calendar.FRIDAY.
-     */
-    public static final int FRIDAY = Calendar.FRIDAY;
-
-    /**
-     * Useful constant for Saturday. Equivalent to java.util.Calendar.SATURDAY.
-     */
-    public static final int SATURDAY = Calendar.SATURDAY;
-
-    /**
-     * Useful constant for Sunday. Equivalent to java.util.Calendar.SUNDAY.
-     */
-    public static final int SUNDAY = Calendar.SUNDAY;
 
     /**
      * The number of days in each month in non leap years.
@@ -275,31 +261,6 @@ public abstract class DayDate implements Comparable, Serializable {
      * Default constructor.
      */
     protected DayDate() {
-    }
-
-    /**
-     * Returns <code>true</code> if the supplied integer code represents a
-     * valid day-of-the-week, and <code>false</code> otherwise.
-     *
-     * @param code the code being checked for validity.
-     * @return <code>true</code> if the supplied integer code represents a
-     * valid day-of-the-week, and <code>false</code> otherwise.
-     */
-    public static boolean isValidWeekdayCode(final int code) {
-
-        switch (code) {
-            case SUNDAY:
-            case MONDAY:
-            case TUESDAY:
-            case WEDNESDAY:
-            case THURSDAY:
-            case FRIDAY:
-            case SATURDAY:
-                return true;
-            default:
-                return false;
-        }
-
     }
 
     /**
@@ -622,7 +583,7 @@ public abstract class DayDate implements Comparable, Serializable {
                                                final DayDate base) {
 
         // check arguments...
-        if (!DayDate.isValidWeekdayCode(targetWeekday)) {
+        if (!DayOfWeek.make(targetWeekday).isPresent()) {
             throw new IllegalArgumentException(
                     "Invalid day-of-the-week code."
             );
@@ -654,7 +615,7 @@ public abstract class DayDate implements Comparable, Serializable {
                                                 final DayDate base) {
 
         // check arguments...
-        if (!DayDate.isValidWeekdayCode(targetWeekday)) {
+        if (!DayOfWeek.make(targetWeekday).isPresent()) {
             throw new IllegalArgumentException(
                     "Invalid day-of-the-week code."
             );
@@ -685,7 +646,7 @@ public abstract class DayDate implements Comparable, Serializable {
                                               final DayDate base) {
 
         // check arguments...
-        if (!DayDate.isValidWeekdayCode(targetDOW)) {
+        if (!DayOfWeek.make(targetDOW).isPresent()) {
             throw new IllegalArgumentException(
                     "Invalid day-of-the-week code."
             );

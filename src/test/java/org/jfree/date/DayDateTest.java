@@ -125,7 +125,7 @@ public class DayDateTest extends TestCase {
      */
     public void testMondayPrecedingFriday9Nov2001() {
         DayDate mondayBefore = DayDate.getPreviousDayOfWeek(
-                DayDate.MONDAY, this.nov9Y2001
+                DayDate.DayOfWeek.MONDAY.index, this.nov9Y2001
         );
         assertEquals(5, mondayBefore.getDayOfMonth());
     }
@@ -135,14 +135,14 @@ public class DayDateTest extends TestCase {
      */
     public void testMondayFollowingFriday9Nov2001() {
         DayDate mondayAfter = DayDate.getFollowingDayOfWeek(
-                DayDate.MONDAY, this.nov9Y2001
+                DayDate.DayOfWeek.MONDAY.index, this.nov9Y2001
         );
         assertEquals(12, mondayAfter.getDayOfMonth());
     }
 
     public void testSaturdayFollowingSaturday25Dec2004() {
         DayDate mondayAfter = DayDate.getFollowingDayOfWeek(
-                DayDate.SATURDAY, createInstance(25, DayDate.Month.DECEMBER.index, 2004)
+                DayDate.DayOfWeek.SATURDAY.index, createInstance(25, DayDate.Month.DECEMBER.index, 2004)
         );
 
         assertEquals(
@@ -155,7 +155,7 @@ public class DayDateTest extends TestCase {
      */
     public void testMondayNearestFriday9Nov2001() {
         DayDate mondayNearest = DayDate.getNearestDayOfWeek(
-                DayDate.MONDAY, this.nov9Y2001
+                DayDate.DayOfWeek.MONDAY.index, this.nov9Y2001
         );
         assertEquals(12, mondayNearest.getDayOfMonth());
     }
@@ -165,7 +165,7 @@ public class DayDateTest extends TestCase {
      */
     public void testMondayNearest22Jan1970() {
         DayDate jan22Y1970 = createInstance(22, DayDate.Month.JANUARY.index, 1970);
-        DayDate mondayNearest = DayDate.getNearestDayOfWeek(DayDate.MONDAY, jan22Y1970);
+        DayDate mondayNearest = DayDate.getNearestDayOfWeek(DayDate.DayOfWeek.MONDAY.index, jan22Y1970);
         assertEquals(19, mondayNearest.getDayOfMonth());
     }
 
@@ -175,7 +175,7 @@ public class DayDateTest extends TestCase {
      */
     public void testWeekdayCodeToString() {
 
-        final String test = DayDate.weekdayCodeToString(DayDate.SATURDAY);
+        final String test = DayDate.weekdayCodeToString(DayDate.DayOfWeek.SATURDAY.index);
         assertEquals("Saturday", test);
 
     }
@@ -187,19 +187,19 @@ public class DayDateTest extends TestCase {
     public void testStringToWeekday() {
 
         int weekday = DayDate.stringToWeekdayCode("Wednesday");
-        assertEquals(DayDate.WEDNESDAY, weekday);
+        assertEquals(DayDate.DayOfWeek.WEDNESDAY.index, weekday);
 
         weekday = DayDate.stringToWeekdayCode(" Wednesday ");
-        assertEquals(DayDate.WEDNESDAY, weekday);
+        assertEquals(DayDate.DayOfWeek.WEDNESDAY.index, weekday);
 
         weekday = DayDate.stringToWeekdayCode("wednesday");
-        assertEquals(DayDate.WEDNESDAY, weekday);
+        assertEquals(DayDate.DayOfWeek.WEDNESDAY.index, weekday);
 
         weekday = DayDate.stringToWeekdayCode("Wed");
-        assertEquals(DayDate.WEDNESDAY, weekday);
+        assertEquals(DayDate.DayOfWeek.WEDNESDAY.index, weekday);
 
         weekday = DayDate.stringToWeekdayCode("wed");
-        assertEquals(DayDate.WEDNESDAY, weekday);
+        assertEquals(DayDate.DayOfWeek.WEDNESDAY.index, weekday);
 
     }
 
