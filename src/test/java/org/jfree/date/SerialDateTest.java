@@ -62,13 +62,15 @@ import junit.framework.TestSuite;
  */
 public class SerialDateTest extends TestCase {
 
-    /** Date representing November 9. */
+    /**
+     * Date representing November 9.
+     */
     private SerialDate nov9Y2001;
 
     /**
      * Creates a new test case.
      *
-     * @param name  the name.
+     * @param name the name.
      */
     public SerialDateTest(final String name) {
         super(name);
@@ -122,7 +124,7 @@ public class SerialDateTest extends TestCase {
      */
     public void testMondayPrecedingFriday9Nov2001() {
         SerialDate mondayBefore = SerialDate.getPreviousDayOfWeek(
-            SerialDate.MONDAY, this.nov9Y2001
+                SerialDate.MONDAY, this.nov9Y2001
         );
         assertEquals(5, mondayBefore.getDayOfMonth());
     }
@@ -132,7 +134,7 @@ public class SerialDateTest extends TestCase {
      */
     public void testMondayFollowingFriday9Nov2001() {
         SerialDate mondayAfter = SerialDate.getFollowingDayOfWeek(
-            SerialDate.MONDAY, this.nov9Y2001
+                SerialDate.MONDAY, this.nov9Y2001
         );
         assertEquals(12, mondayAfter.getDayOfMonth());
     }
@@ -142,7 +144,7 @@ public class SerialDateTest extends TestCase {
      */
     public void testMondayNearestFriday9Nov2001() {
         SerialDate mondayNearest = SerialDate.getNearestDayOfWeek(
-            SerialDate.MONDAY, this.nov9Y2001
+                SerialDate.MONDAY, this.nov9Y2001
         );
         assertEquals(12, mondayNearest.getDayOfMonth());
     }
@@ -157,7 +159,7 @@ public class SerialDateTest extends TestCase {
     }
 
     /**
-     * Problem that the conversion of days to strings returns the right result.  Actually, this 
+     * Problem that the conversion of days to strings returns the right result.  Actually, this
      * result depends on the Locale so this test needs to be modified.
      */
     public void testWeekdayCodeToString() {
@@ -168,7 +170,7 @@ public class SerialDateTest extends TestCase {
     }
 
     /**
-     * Test the conversion of a string to a weekday.  Note that this test will fail if the 
+     * Test the conversion of a string to a weekday.  Note that this test will fail if the
      * default locale doesn't use English weekday names...devise a better test!
      */
     public void testStringToWeekday() {
@@ -179,7 +181,13 @@ public class SerialDateTest extends TestCase {
         weekday = SerialDate.stringToWeekdayCode(" Wednesday ");
         assertEquals(SerialDate.WEDNESDAY, weekday);
 
+        weekday = SerialDate.stringToWeekdayCode("wednesday");
+        assertEquals(SerialDate.WEDNESDAY, weekday);
+
         weekday = SerialDate.stringToWeekdayCode("Wed");
+        assertEquals(SerialDate.WEDNESDAY, weekday);
+
+        weekday = SerialDate.stringToWeekdayCode("wed");
         assertEquals(SerialDate.WEDNESDAY, weekday);
 
     }
@@ -277,14 +285,13 @@ public class SerialDateTest extends TestCase {
             ObjectInput in = new ObjectInputStream(new ByteArrayInputStream(buffer.toByteArray()));
             d2 = (SerialDate) in.readObject();
             in.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.toString());
         }
         assertEquals(d1, d2);
 
     }
-    
+
     /**
      * A test for bug report 1096282 (now fixed).
      */
@@ -300,17 +307,17 @@ public class SerialDateTest extends TestCase {
      */
     public void testAddMonths() {
         SerialDate d1 = SerialDate.createInstance(31, 5, 2004);
-        
+
         SerialDate d2 = SerialDate.addMonths(1, d1);
         assertEquals(30, d2.getDayOfMonth());
         assertEquals(6, d2.getMonth());
         assertEquals(2004, d2.getYYYY());
-        
+
         SerialDate d3 = SerialDate.addMonths(2, d1);
         assertEquals(31, d3.getDayOfMonth());
         assertEquals(7, d3.getMonth());
         assertEquals(2004, d3.getYYYY());
-        
+
         SerialDate d4 = SerialDate.addMonths(1, SerialDate.addMonths(1, d1));
         assertEquals(30, d4.getDayOfMonth());
         assertEquals(7, d4.getMonth());
