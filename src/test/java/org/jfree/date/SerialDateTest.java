@@ -46,16 +46,16 @@
 
 package org.jfree.date;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import java.io.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+
+import static java.time.temporal.TemporalAdjusters.next;
+import static org.jfree.date.SerialDate.createInstance;
 
 /**
  * Some JUnit tests for the {@link SerialDate} class.
@@ -89,7 +89,7 @@ public class SerialDateTest extends TestCase {
      * Problem set up.
      */
     protected void setUp() {
-        this.nov9Y2001 = SerialDate.createInstance(9, MonthConstants.NOVEMBER, 2001);
+        this.nov9Y2001 = createInstance(9, MonthConstants.NOVEMBER, 2001);
     }
 
     /**
@@ -97,7 +97,7 @@ public class SerialDateTest extends TestCase {
      */
     public void testAddMonthsTo9Nov2001() {
         final SerialDate jan9Y2002 = SerialDate.addMonths(2, this.nov9Y2001);
-        final SerialDate answer = SerialDate.createInstance(9, 1, 2002);
+        final SerialDate answer = createInstance(9, 1, 2002);
         assertEquals(answer, jan9Y2002);
     }
 
@@ -105,16 +105,16 @@ public class SerialDateTest extends TestCase {
      * A test case for a reported bug, now fixed.
      */
     public void testAddMonthsTo5Oct2003() {
-        final SerialDate d1 = SerialDate.createInstance(5, MonthConstants.OCTOBER, 2003);
+        final SerialDate d1 = createInstance(5, MonthConstants.OCTOBER, 2003);
         final SerialDate d2 = SerialDate.addMonths(2, d1);
-        assertEquals(d2, SerialDate.createInstance(5, MonthConstants.DECEMBER, 2003));
+        assertEquals(d2, createInstance(5, MonthConstants.DECEMBER, 2003));
     }
 
     /**
      * A test case for a reported bug, now fixed.
      */
     public void testAddMonthsTo1Jan2003() {
-        final SerialDate d1 = SerialDate.createInstance(1, MonthConstants.JANUARY, 2003);
+        final SerialDate d1 = createInstance(1, MonthConstants.JANUARY, 2003);
         final SerialDate d2 = SerialDate.addMonths(0, d1);
         assertEquals(d2, d1);
     }
@@ -139,6 +139,16 @@ public class SerialDateTest extends TestCase {
         assertEquals(12, mondayAfter.getDayOfMonth());
     }
 
+    public void testSaturdayFollowingSaturday25Dec2004() {
+        SerialDate mondayAfter = SerialDate.getFollowingDayOfWeek(
+                SerialDate.SATURDAY, createInstance(25, MonthConstants.DECEMBER, 2004)
+        );
+
+        assertEquals(
+                LocalDate.of(2004, 12, 25).with(next(DayOfWeek.SATURDAY)).getDayOfMonth(),
+                mondayAfter.getDayOfMonth());
+    }
+
     /**
      * Monday nearest Friday 9 November 2001 should be 12 November.
      */
@@ -153,7 +163,7 @@ public class SerialDateTest extends TestCase {
      * The Monday nearest to 22nd January 1970 falls on the 19th.
      */
     public void testMondayNearest22Jan1970() {
-        SerialDate jan22Y1970 = SerialDate.createInstance(22, MonthConstants.JANUARY, 1970);
+        SerialDate jan22Y1970 = createInstance(22, MonthConstants.JANUARY, 1970);
         SerialDate mondayNearest = SerialDate.getNearestDayOfWeek(SerialDate.MONDAY, jan22Y1970);
         assertEquals(19, mondayNearest.getDayOfMonth());
     }
@@ -273,7 +283,7 @@ public class SerialDateTest extends TestCase {
      */
     public void testSerialization() {
 
-        SerialDate d1 = SerialDate.createInstance(15, 4, 2000);
+        SerialDate d1 = createInstance(15, 4, 2000);
         SerialDate d2 = null;
 
         try {
@@ -296,9 +306,9 @@ public class SerialDateTest extends TestCase {
      * A test for bug report 1096282 (now fixed).
      */
     public void test1096282() {
-        SerialDate d = SerialDate.createInstance(29, 2, 2004);
+        SerialDate d = createInstance(29, 2, 2004);
         d = SerialDate.addYears(1, d);
-        SerialDate expected = SerialDate.createInstance(28, 2, 2005);
+        SerialDate expected = createInstance(28, 2, 2005);
         assertTrue(d.isOn(expected));
     }
 
@@ -306,7 +316,7 @@ public class SerialDateTest extends TestCase {
      * Miscellaneous tests for the addMonths() method.
      */
     public void testAddMonths() {
-        SerialDate d1 = SerialDate.createInstance(31, 5, 2004);
+        SerialDate d1 = createInstance(31, 5, 2004);
 
         SerialDate d2 = SerialDate.addMonths(1, d1);
         assertEquals(30, d2.getDayOfMonth());
