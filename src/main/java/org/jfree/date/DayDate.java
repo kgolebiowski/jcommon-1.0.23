@@ -84,7 +84,7 @@ import java.util.GregorianCalendar;
  *
  * @author David Gilbert
  */
-public abstract class DayDate implements Comparable, Serializable, MonthConstants {
+public abstract class DayDate implements Comparable, Serializable {
 
     public enum Month {
         JANUARY(1),
@@ -392,57 +392,12 @@ public abstract class DayDate implements Comparable, Serializable, MonthConstant
      * valid month.
      */
     public static boolean isValidMonthCode(final int code) {
-
-        switch (code) {
-            case JANUARY:
-            case FEBRUARY:
-            case MARCH:
-            case APRIL:
-            case MAY:
-            case JUNE:
-            case JULY:
-            case AUGUST:
-            case SEPTEMBER:
-            case OCTOBER:
-            case NOVEMBER:
-            case DECEMBER:
-                return true;
-            default:
-                return false;
+        try {
+            Month.make(code);
+        } catch (IllegalArgumentException e) {
+            return false;
         }
-
-    }
-
-    /**
-     * Returns the quarter for the specified month.
-     *
-     * @param code the month code (1-12).
-     * @return the quarter that the month belongs to.
-     */
-    public static int monthCodeToQuarter(final int code) {
-
-        switch (code) {
-            case JANUARY:
-            case FEBRUARY:
-            case MARCH:
-                return 1;
-            case APRIL:
-            case MAY:
-            case JUNE:
-                return 2;
-            case JULY:
-            case AUGUST:
-            case SEPTEMBER:
-                return 3;
-            case OCTOBER:
-            case NOVEMBER:
-            case DECEMBER:
-                return 4;
-            default:
-                throw new IllegalArgumentException(
-                        "SerialDate.monthCodeToQuarter: invalid month code.");
-        }
-
+        return true;
     }
 
     /**
@@ -455,7 +410,6 @@ public abstract class DayDate implements Comparable, Serializable, MonthConstant
      * @return a string representing the supplied month.
      */
     public static String monthCodeToString(final int month) {
-
         return monthCodeToString(month, false);
 
     }
@@ -608,7 +562,7 @@ public abstract class DayDate implements Comparable, Serializable, MonthConstant
     public static int lastDayOfMonth(final int month, final int yyyy) {
 
         final int result = LAST_DAY_OF_MONTH[month];
-        if (month != FEBRUARY) {
+        if (month != Month.FEBRUARY.index) {
             return result;
         } else if (isLeapYear(yyyy)) {
             return result + 1;

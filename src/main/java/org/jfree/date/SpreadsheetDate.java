@@ -116,8 +116,8 @@ public class SpreadsheetDate extends DayDate {
             );
         }
 
-        if ((month >= MonthConstants.JANUARY) 
-                && (month <= MonthConstants.DECEMBER)) {
+        if ((month >= DayDate.Month.JANUARY.index) 
+                && (month <= DayDate.Month.DECEMBER.index)) {
             this.month = month;
         }
         else {
@@ -449,7 +449,7 @@ public class SpreadsheetDate extends DayDate {
     private int calcSerial(final int d, final int m, final int y) {
         final int yy = ((y - 1900) * 365) + DayDate.leapYearCount(y - 1);
         int mm = DayDate.AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH[m];
-        if (m > MonthConstants.FEBRUARY) {
+        if (m > DayDate.Month.FEBRUARY.index) {
             if (DayDate.isLeapYear(y)) {
                 mm = mm + 1;
             }

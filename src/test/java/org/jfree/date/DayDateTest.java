@@ -89,7 +89,7 @@ public class DayDateTest extends TestCase {
      * Problem set up.
      */
     protected void setUp() {
-        this.nov9Y2001 = createInstance(9, MonthConstants.NOVEMBER, 2001);
+        this.nov9Y2001 = createInstance(9, DayDate.Month.NOVEMBER.index, 2001);
     }
 
     /**
@@ -105,16 +105,16 @@ public class DayDateTest extends TestCase {
      * A test case for a reported bug, now fixed.
      */
     public void testAddMonthsTo5Oct2003() {
-        final DayDate d1 = createInstance(5, MonthConstants.OCTOBER, 2003);
+        final DayDate d1 = createInstance(5, DayDate.Month.OCTOBER.index, 2003);
         final DayDate d2 = DayDate.addMonths(2, d1);
-        assertEquals(d2, createInstance(5, MonthConstants.DECEMBER, 2003));
+        assertEquals(d2, createInstance(5, DayDate.Month.DECEMBER.index, 2003));
     }
 
     /**
      * A test case for a reported bug, now fixed.
      */
     public void testAddMonthsTo1Jan2003() {
-        final DayDate d1 = createInstance(1, MonthConstants.JANUARY, 2003);
+        final DayDate d1 = createInstance(1, DayDate.Month.JANUARY.index, 2003);
         final DayDate d2 = DayDate.addMonths(0, d1);
         assertEquals(d2, d1);
     }
@@ -141,7 +141,7 @@ public class DayDateTest extends TestCase {
 
     public void testSaturdayFollowingSaturday25Dec2004() {
         DayDate mondayAfter = DayDate.getFollowingDayOfWeek(
-                DayDate.SATURDAY, createInstance(25, MonthConstants.DECEMBER, 2004)
+                DayDate.SATURDAY, createInstance(25, DayDate.Month.DECEMBER.index, 2004)
         );
 
         assertEquals(
@@ -163,7 +163,7 @@ public class DayDateTest extends TestCase {
      * The Monday nearest to 22nd January 1970 falls on the 19th.
      */
     public void testMondayNearest22Jan1970() {
-        DayDate jan22Y1970 = createInstance(22, MonthConstants.JANUARY, 1970);
+        DayDate jan22Y1970 = createInstance(22, DayDate.Month.JANUARY.index, 1970);
         DayDate mondayNearest = DayDate.getNearestDayOfWeek(DayDate.MONDAY, jan22Y1970);
         assertEquals(19, mondayNearest.getDayOfMonth());
     }
@@ -209,13 +209,13 @@ public class DayDateTest extends TestCase {
     public void testStringToMonthCode() {
 
         int m = DayDate.stringToMonthCode("January");
-        assertEquals(MonthConstants.JANUARY, m);
+        assertEquals(DayDate.Month.JANUARY.index, m);
 
         m = DayDate.stringToMonthCode(" January ");
-        assertEquals(MonthConstants.JANUARY, m);
+        assertEquals(DayDate.Month.JANUARY.index, m);
 
         m = DayDate.stringToMonthCode("Jan");
-        assertEquals(MonthConstants.JANUARY, m);
+        assertEquals(DayDate.Month.JANUARY.index, m);
 
     }
 
@@ -224,7 +224,7 @@ public class DayDateTest extends TestCase {
      */
     public void testMonthCodeToStringCode() {
 
-        final String test = DayDate.monthCodeToString(MonthConstants.DECEMBER);
+        final String test = DayDate.monthCodeToString(DayDate.Month.DECEMBER.index);
         assertEquals("December", test);
 
     }

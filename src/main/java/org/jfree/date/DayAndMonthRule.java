@@ -66,7 +66,7 @@ public class DayAndMonthRule extends AnnualDateRule {
      * Default constructor: builds a DayAndMonthRule for 1 January.
      */
     public DayAndMonthRule() {
-        this(1, MonthConstants.JANUARY);
+        this(1, DayDate.Month.JANUARY.index);
     }
 
     /**

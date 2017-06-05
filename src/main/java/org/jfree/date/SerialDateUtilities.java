@@ -330,7 +330,7 @@ public class SerialDateUtilities {
     public static boolean isLastDayOfFebruary(final DayDate d) {
 
         final int dom;
-        if (d.getMonth() == MonthConstants.FEBRUARY) {
+        if (d.getMonth() == DayDate.Month.FEBRUARY.index) {
             dom = d.getDayOfMonth();
             if (DayDate.isLeapYear(d.getYYYY())) {
                 return (dom == 29);
@@ -372,7 +372,7 @@ public class SerialDateUtilities {
             y2 = end.getYYYY();
             for (year = y1; year == y2; year++) {
                 if (DayDate.isLeapYear(year)) {
-                    feb29 = DayDate.createInstance(29, MonthConstants.FEBRUARY, year);
+                    feb29 = DayDate.createInstance(29, DayDate.Month.FEBRUARY.index, year);
                     if (feb29.isInRange(start, end, DayDate.INCLUDE_SECOND)) {
                         count++;
                     }
