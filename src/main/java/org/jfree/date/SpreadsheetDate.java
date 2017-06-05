@@ -80,6 +80,12 @@ import java.util.Date;
  */
 public class SpreadsheetDate extends DayDate {
 
+    /** The highest year value supported by this date format. */
+    static final int MAXIMUM_YEAR_SUPPORTED = 9999;
+
+    /** The lowest year value supported by this date format. */
+    static final int MINIMUM_YEAR_SUPPORTED = 1900;
+
     /** The serial number for 1 January 1900. */
     private static final int EARLIEST_DATE_ORDINAL = 2;
 

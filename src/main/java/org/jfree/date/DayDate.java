@@ -149,16 +149,6 @@ public abstract class DayDate implements Comparable, Serializable {
             DATE_FORMAT_SYMBOLS = new SimpleDateFormat().getDateFormatSymbols();
 
     /**
-     * The lowest year value supported by this date format.
-     */
-    public static final int MINIMUM_YEAR_SUPPORTED = 1900;
-
-    /**
-     * The highest year value supported by this date format.
-     */
-    public static final int MAXIMUM_YEAR_SUPPORTED = 9999;
-
-    /**
      * The number of days in each month in non leap years.
      */
     static final int[] LAST_DAY_OF_MONTH =
