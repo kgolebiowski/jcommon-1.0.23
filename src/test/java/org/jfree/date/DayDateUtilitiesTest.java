@@ -51,14 +51,14 @@ import junit.framework.TestSuite;
  * Some tests for the SerialDateUtilities class.
  *
  */
-public class SerialDateUtilitiesTest extends TestCase {
+public class DayDateUtilitiesTest extends TestCase {
 
     /**
      * Creates a new test case.
      *
      * @param name  the name.
      */
-    public SerialDateUtilitiesTest(final String name) {
+    public DayDateUtilitiesTest(final String name) {
         super(name);
     }
 
@@ -68,15 +68,15 @@ public class SerialDateUtilitiesTest extends TestCase {
      * @return the test suite.
      */
     public static Test suite() {
-        return new TestSuite(SerialDateUtilitiesTest.class);
+        return new TestSuite(DayDateUtilitiesTest.class);
     }
 
     /**
      * Problem actual day count.
      */
     public void testDayCountActual() {
-        final SerialDate d1 = SerialDate.createInstance(1, MonthConstants.APRIL, 2002);
-        final SerialDate d2 = SerialDate.createInstance(2, MonthConstants.APRIL, 2002);
+        final DayDate d1 = DayDate.createInstance(1, MonthConstants.APRIL, 2002);
+        final DayDate d2 = DayDate.createInstance(2, MonthConstants.APRIL, 2002);
         final int count = SerialDateUtilities.dayCountActual(d1, d2);
         assertEquals(1, count);
     }
@@ -85,8 +85,8 @@ public class SerialDateUtilitiesTest extends TestCase {
      * Problem 30/360 day count.
      */
     public void testDayCount30() {
-        final SerialDate d1 = SerialDate.createInstance(1, MonthConstants.APRIL, 2002);
-        final SerialDate d2 = SerialDate.createInstance(2, MonthConstants.APRIL, 2002);
+        final DayDate d1 = DayDate.createInstance(1, MonthConstants.APRIL, 2002);
+        final DayDate d2 = DayDate.createInstance(2, MonthConstants.APRIL, 2002);
         final int count = SerialDateUtilities.dayCount30(d1, d2);
         assertEquals(1, count);
     }
@@ -95,8 +95,8 @@ public class SerialDateUtilitiesTest extends TestCase {
      * Problem 30/360ISDA day count.
      */
     public void testDayCount30ISDA() {
-        final SerialDate d1 = SerialDate.createInstance(1, MonthConstants.APRIL, 2002);
-        final SerialDate d2 = SerialDate.createInstance(2, MonthConstants.APRIL, 2002);
+        final DayDate d1 = DayDate.createInstance(1, MonthConstants.APRIL, 2002);
+        final DayDate d2 = DayDate.createInstance(2, MonthConstants.APRIL, 2002);
         final int count = SerialDateUtilities.dayCount30ISDA(d1, d2);
         assertEquals(1, count);
     }
@@ -105,8 +105,8 @@ public class SerialDateUtilitiesTest extends TestCase {
      * Problem 30/360PSA day count.
      */
     public void testDayCount30PSA() {
-        final SerialDate d1 = SerialDate.createInstance(1, MonthConstants.APRIL, 2002);
-        final SerialDate d2 = SerialDate.createInstance(2, MonthConstants.APRIL, 2002);
+        final DayDate d1 = DayDate.createInstance(1, MonthConstants.APRIL, 2002);
+        final DayDate d2 = DayDate.createInstance(2, MonthConstants.APRIL, 2002);
         final int count = SerialDateUtilities.dayCount30PSA(d1, d2);
         assertEquals(1, count);
     }
@@ -115,8 +115,8 @@ public class SerialDateUtilitiesTest extends TestCase {
      * Problem 30E/360 day count.
      */
     public void testDayCount3030E() {
-        final SerialDate d1 = SerialDate.createInstance(1, MonthConstants.APRIL, 2002);
-        final SerialDate d2 = SerialDate.createInstance(2, MonthConstants.APRIL, 2002);
+        final DayDate d1 = DayDate.createInstance(1, MonthConstants.APRIL, 2002);
+        final DayDate d2 = DayDate.createInstance(2, MonthConstants.APRIL, 2002);
         final int count = SerialDateUtilities.dayCount30E(d1, d2);
         assertEquals(1, count);
     }

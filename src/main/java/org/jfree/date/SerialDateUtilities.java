@@ -113,25 +113,25 @@ public class SerialDateUtilities {
     public int stringToWeekday(final String s) {
 
         if (s.equals(this.weekdays[Calendar.SATURDAY])) {
-            return SerialDate.SATURDAY;
+            return DayDate.SATURDAY;
         }
         else if (s.equals(this.weekdays[Calendar.SUNDAY])) {
-            return SerialDate.SUNDAY;
+            return DayDate.SUNDAY;
         }
         else if (s.equals(this.weekdays[Calendar.MONDAY])) {
-            return SerialDate.MONDAY;
+            return DayDate.MONDAY;
         }
         else if (s.equals(this.weekdays[Calendar.TUESDAY])) {
-            return SerialDate.TUESDAY;
+            return DayDate.TUESDAY;
         }
         else if (s.equals(this.weekdays[Calendar.WEDNESDAY])) {
-            return SerialDate.WEDNESDAY;
+            return DayDate.WEDNESDAY;
         }
         else if (s.equals(this.weekdays[Calendar.THURSDAY])) {
-            return SerialDate.THURSDAY;
+            return DayDate.THURSDAY;
         }
         else {
-            return SerialDate.FRIDAY;
+            return DayDate.FRIDAY;
         }
 
     }
@@ -144,7 +144,7 @@ public class SerialDateUtilities {
      *
      * @return the number of days between the start date and the end date.
      */
-    public static int dayCountActual(final SerialDate start, final SerialDate end) {
+    public static int dayCountActual(final DayDate start, final DayDate end) {
         return end.compare(start);
     }
 
@@ -161,7 +161,7 @@ public class SerialDateUtilities {
      *
      * @return the number of days between the two dates, assuming the 30/360 day-count convention.
      */
-    public static int dayCount30(final SerialDate start, final SerialDate end) {
+    public static int dayCount30(final DayDate start, final DayDate end) {
         final int d1;
         final int m1;
         final int y1;
@@ -197,7 +197,7 @@ public class SerialDateUtilities {
      * @return The number of days between the two dates, assuming the 30/360
      *      (ISDA) day-count convention.
      */
-    public static int dayCount30ISDA(final SerialDate start, final SerialDate end) {
+    public static int dayCount30ISDA(final DayDate start, final DayDate end) {
         int d1;
         final int m1;
         final int y1;
@@ -240,7 +240,7 @@ public class SerialDateUtilities {
      * @return The number of days between the two dates, assuming the 30/360
      *      (PSA) day-count convention.
      */
-    public static int dayCount30PSA(final SerialDate start, final SerialDate end) {
+    public static int dayCount30PSA(final DayDate start, final DayDate end) {
         int d1;
         final int m1;
         final int y1;
@@ -288,7 +288,7 @@ public class SerialDateUtilities {
      * @return the number of days between the two dates, assuming the 30E/360
      *      day-count convention.
      */
-    public static int dayCount30E(final SerialDate start, final SerialDate end) {
+    public static int dayCount30E(final DayDate start, final DayDate end) {
         int d1;
         final int m1;
         final int y1;
@@ -327,12 +327,12 @@ public class SerialDateUtilities {
      * @return a boolean that indicates whether or not the specified date is
      *      the last day of February.
      */
-    public static boolean isLastDayOfFebruary(final SerialDate d) {
+    public static boolean isLastDayOfFebruary(final DayDate d) {
 
         final int dom;
         if (d.getMonth() == MonthConstants.FEBRUARY) {
             dom = d.getDayOfMonth();
-            if (SerialDate.isLeapYear(d.getYYYY())) {
+            if (DayDate.isLeapYear(d.getYYYY())) {
                 return (dom == 29);
             }
             else {
@@ -358,9 +358,9 @@ public class SerialDateUtilities {
      * @return the number of times that February 29 occurs within the date
      *      range.
      */
-    public static int countFeb29s(final SerialDate start, final SerialDate end) {
+    public static int countFeb29s(final DayDate start, final DayDate end) {
         int count = 0;
-        SerialDate feb29;
+        DayDate feb29;
         final int y1;
         final int y2;
         int year;
@@ -371,9 +371,9 @@ public class SerialDateUtilities {
             y1 = start.getYYYY();
             y2 = end.getYYYY();
             for (year = y1; year == y2; year++) {
-                if (SerialDate.isLeapYear(year)) {
-                    feb29 = SerialDate.createInstance(29, MonthConstants.FEBRUARY, year);
-                    if (feb29.isInRange(start, end, SerialDate.INCLUDE_SECOND)) {
+                if (DayDate.isLeapYear(year)) {
+                    feb29 = DayDate.createInstance(29, MonthConstants.FEBRUARY, year);
+                    if (feb29.isInRange(start, end, DayDate.INCLUDE_SECOND)) {
                         count++;
                     }
                 }
