@@ -53,6 +53,7 @@ import junit.framework.TestSuite;
 import java.io.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static java.time.temporal.TemporalAdjusters.next;
 import static org.jfree.date.DayDate.createInstance;
@@ -335,12 +336,8 @@ public class DayDateTest extends TestCase {
     }
 
     public void testMakeMonthFromItsIndex() {
-        assertEquals(DayDate.Month.JANUARY, DayDate.Month.make(1));
-        assertEquals(DayDate.Month.DECEMBER, DayDate.Month.make(12));
-        try {
-            DayDate.Month.make(13);
-        } catch (IllegalArgumentException e) {
-            assertEquals("java.lang.IllegalArgumentException: Invalid month index: 13", e.toString());
-        }
+        assertEquals(Optional.of(DayDate.Month.JANUARY), DayDate.Month.make(1));
+        assertEquals(Optional.of(DayDate.Month.DECEMBER), DayDate.Month.make(12));
+        assertEquals(false, DayDate.Month.make(13).isPresent());
     }
 }

@@ -136,7 +136,7 @@ public class DayAndMonthRule extends AnnualDateRule {
     public void setMonth(final int month) {
 
         // check arguments...
-        if (!DayDate.isValidMonthCode(month)) {
+        if (!DayDate.Month.make(month).isPresent()) {
             throw new IllegalArgumentException("DayAndMonthRule(): month code not valid.");
         }
 

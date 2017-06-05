@@ -64,6 +64,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Optional;
 
 /**
  * An abstract class that defines our requirements for manipulating dates,
@@ -106,11 +107,10 @@ public abstract class DayDate implements Comparable, Serializable {
             this.index = index;
         }
 
-        public static Month make(int monthIndex) {
+        public static Optional<Month> make(int monthIndex) {
             return Arrays.stream(Month.values())
                     .filter(month -> month.index == monthIndex)
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid month index: " + monthIndex));
+                    .findFirst();
         }
     }
 
@@ -385,22 +385,6 @@ public abstract class DayDate implements Comparable, Serializable {
     }
 
     /**
-     * Returns true if the supplied integer code represents a valid month.
-     *
-     * @param code the code being checked for validity.
-     * @return <code>true</code> if the supplied integer code represents a
-     * valid month.
-     */
-    public static boolean isValidMonthCode(final int code) {
-        try {
-            Month.make(code);
-        } catch (IllegalArgumentException e) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Returns a string representing the supplied month.
      * <p>
      * The string returned is the long form of the month name taken from the
@@ -429,7 +413,7 @@ public abstract class DayDate implements Comparable, Serializable {
                                            final boolean shortened) {
 
         // check arguments...
-        if (!isValidMonthCode(month)) {
+        if (!DayDate.Month.make(month).isPresent()) {
             throw new IllegalArgumentException(
                     "SerialDate.monthCodeToString: month outside valid range.");
         }
