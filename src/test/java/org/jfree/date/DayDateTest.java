@@ -56,6 +56,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static java.time.temporal.TemporalAdjusters.next;
+import static org.jfree.date.DayDate.DayOfWeek.*;
 
 /**
  * Some JUnit tests for the {@link DayDate} class.
@@ -124,7 +125,7 @@ public class DayDateTest extends TestCase {
      */
     public void testMondayPrecedingFriday9Nov2001() {
         DayDate mondayBefore = DayDate.getPreviousDayOfWeek(
-                DayDate.DayOfWeek.MONDAY.index, this.nov9Y2001
+                MONDAY.index, this.nov9Y2001
         );
         assertEquals(5, mondayBefore.getDayOfMonth());
     }
@@ -134,14 +135,14 @@ public class DayDateTest extends TestCase {
      */
     public void testMondayFollowingFriday9Nov2001() {
         DayDate mondayAfter = DayDate.getFollowingDayOfWeek(
-                DayDate.DayOfWeek.MONDAY.index, this.nov9Y2001
+                MONDAY.index, this.nov9Y2001
         );
         assertEquals(12, mondayAfter.getDayOfMonth());
     }
 
     public void testSaturdayFollowingSaturday25Dec2004() {
         DayDate mondayAfter = DayDate.getFollowingDayOfWeek(
-                DayDate.DayOfWeek.SATURDAY.index, DayDateFactory.makeDate(25, DayDate.Month.DECEMBER.index, 2004)
+                SATURDAY.index, DayDateFactory.makeDate(25, DayDate.Month.DECEMBER.index, 2004)
         );
 
         assertEquals(
@@ -154,7 +155,7 @@ public class DayDateTest extends TestCase {
      */
     public void testMondayNearestFriday9Nov2001() {
         DayDate mondayNearest = DayDate.getNearestDayOfWeek(
-                DayDate.DayOfWeek.MONDAY.index, this.nov9Y2001
+                MONDAY.index, this.nov9Y2001
         );
         assertEquals(12, mondayNearest.getDayOfMonth());
     }
@@ -164,7 +165,7 @@ public class DayDateTest extends TestCase {
      */
     public void testMondayNearest22Jan1970() {
         DayDate jan22Y1970 = DayDateFactory.makeDate(22, DayDate.Month.JANUARY.index, 1970);
-        DayDate mondayNearest = DayDate.getNearestDayOfWeek(DayDate.DayOfWeek.MONDAY.index, jan22Y1970);
+        DayDate mondayNearest = DayDate.getNearestDayOfWeek(MONDAY.index, jan22Y1970);
         assertEquals(19, mondayNearest.getDayOfMonth());
     }
 
@@ -174,7 +175,7 @@ public class DayDateTest extends TestCase {
      */
     public void testWeekdayCodeToString() {
 
-        final String test = DayDate.weekdayCodeToString(DayDate.DayOfWeek.SATURDAY.index);
+        final String test = DayDate.weekdayCodeToString(SATURDAY.index);
         assertEquals("Saturday", test);
 
     }
@@ -185,20 +186,26 @@ public class DayDateTest extends TestCase {
      */
     public void testStringToWeekday() {
 
-        int weekday = DayDate.stringToWeekdayCode("Wednesday");
-        assertEquals(DayDate.DayOfWeek.WEDNESDAY.index, weekday);
+        Optional<DayDate.DayOfWeek> weekday = DayDate.stringToWeekdayCode("Wednesday");
+        assertEquals(Optional.of(WEDNESDAY), weekday);
 
         weekday = DayDate.stringToWeekdayCode(" Wednesday ");
-        assertEquals(DayDate.DayOfWeek.WEDNESDAY.index, weekday);
+        assertEquals(Optional.of(WEDNESDAY), weekday);
 
         weekday = DayDate.stringToWeekdayCode("wednesday");
-        assertEquals(DayDate.DayOfWeek.WEDNESDAY.index, weekday);
+        assertEquals(Optional.of(WEDNESDAY), weekday);
 
         weekday = DayDate.stringToWeekdayCode("Wed");
-        assertEquals(DayDate.DayOfWeek.WEDNESDAY.index, weekday);
+        assertEquals(Optional.of(WEDNESDAY), weekday);
 
         weekday = DayDate.stringToWeekdayCode("wed");
-        assertEquals(DayDate.DayOfWeek.WEDNESDAY.index, weekday);
+        assertEquals(Optional.of(WEDNESDAY), weekday);
+
+        weekday = DayDate.stringToWeekdayCode("blah");
+        assertEquals(Optional.empty(), weekday);
+
+        weekday = DayDate.stringToWeekdayCode("");
+        assertEquals(Optional.empty(), weekday);
 
     }
 

@@ -315,29 +315,5 @@ public class SpreadsheetDateTest extends TestCase {
             System.out.println(e.toString());
         }
         assertEquals(d1, d2);
-
     }
-
-    /**
-     * Some checks for the getDescription() method.
-     */
-    public void testGetDescription() {
-        SpreadsheetDate d1 = new SpreadsheetDate(15, 4, 2000);
-        assertEquals(null, d1.getDescription());
-        d1.setDescription("XYZ");
-        assertEquals("XYZ", d1.getDescription());
-    }
-
-    /**
-     * Some checks for the setDescription() method.
-     */
-    public void testSetDescription() {
-        SpreadsheetDate d1 = new SpreadsheetDate(15, 4, 2000);
-        assertEquals(null, d1.getDescription());
-        d1.setDescription("XYZ");
-        assertEquals("XYZ", d1.getDescription());
-        d1.setDescription(null);
-        assertEquals(null, d1.getDescription());
-    }
-
 }

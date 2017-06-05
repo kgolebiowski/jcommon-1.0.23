@@ -64,6 +64,8 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Optional;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * An abstract class that defines our requirements for manipulating dates,
@@ -193,43 +195,19 @@ public abstract class DayDate implements Comparable, Serializable {
     public static final int FOLLOWING = 1;
 
     /**
-     * A description for the date.
-     */
-    private String description;
-
-    /**
      * Default constructor.
      */
     protected DayDate() {
     }
 
-    /**
-     * Converts the supplied string to a day of the week.
-     *
-     * @param s a string representing the day of the week.
-     * @return <code>-1</code> if the string is not convertable, the day of
-     * the week otherwise.
-     */
-    public static int stringToWeekdayCode(String s) {
-
-        final String[] shortWeekdayNames
-                = DATE_FORMAT_SYMBOLS.getShortWeekdays();
-        final String[] weekDayNames = DATE_FORMAT_SYMBOLS.getWeekdays();
-
-        int result = -1;
-        s = s.trim();
-        for (int i = 0; i < weekDayNames.length; i++) {
-            if (s.equalsIgnoreCase(shortWeekdayNames[i])) {
-                result = i;
-                break;
-            }
-            if (s.equalsIgnoreCase(weekDayNames[i])) {
-                result = i;
-                break;
-            }
-        }
-        return result;
-
+    public static Optional<DayOfWeek> stringToWeekdayCode(final String s) {
+        return Stream.of(DATE_FORMAT_SYMBOLS.getShortWeekdays(), DATE_FORMAT_SYMBOLS.getWeekdays())
+                .flatMap(names -> IntStream.range(0, names.length)
+                        .filter(value -> names[value].equalsIgnoreCase(s.trim())).boxed())
+                .map(DayOfWeek::make)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findAny();
     }
 
     /**
@@ -300,10 +278,8 @@ public abstract class DayDate implements Comparable, Serializable {
      *                  month.
      * @return a string representing the supplied month.
      */
-    public static String monthCodeToString(final int month,
-                                           final boolean shortened) {
+    public static String monthCodeToString(final int month, final boolean shortened) {
 
-        // check arguments...
         if (!DayDate.Month.make(month).isPresent()) {
             throw new IllegalArgumentException(
                     "SerialDate.monthCodeToString: month outside valid range.");
@@ -634,27 +610,6 @@ public abstract class DayDate implements Comparable, Serializable {
      * @return this as <code>java.util.Date</code>.
      */
     public abstract java.util.Date toDate();
-
-    /**
-     * Returns the description that is attached to the date.  It is not
-     * required that a date have a description, but for some applications it
-     * is useful.
-     *
-     * @return The description (possibly <code>null</code>).
-     */
-    public String getDescription() {
-        return this.description;
-    }
-
-    /**
-     * Sets the description for the date.
-     *
-     * @param description the description for this date (<code>null</code>
-     *                    permitted).
-     */
-    public void setDescription(final String description) {
-        this.description = description;
-    }
 
     /**
      * Converts the date to a string.
