@@ -62,6 +62,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import org.jfree.date.DayDate;
+import org.jfree.date.DayDateFactory;
 
 /**
  * A panel that allows the user to select a date.
@@ -119,7 +120,7 @@ public class SerialDateChooserPanel extends JPanel implements ActionListener {
      */
     public SerialDateChooserPanel() {
 
-        this(DayDate.createInstance(new Date()), false,
+        this(DayDateFactory.makeDate(new Date()), false,
              DEFAULT_DATE_BUTTON_COLOR,
              DEFAULT_MONTH_BUTTON_COLOR);
 
@@ -197,7 +198,7 @@ public class SerialDateChooserPanel extends JPanel implements ActionListener {
 
         if (e.getActionCommand().equals("monthSelectionChanged")) {
             final JComboBox c = (JComboBox) e.getSource();
-            this.date = DayDate.createInstance(
+            this.date = DayDateFactory.makeDate(
                 this.date.getDayOfMonth(), c.getSelectedIndex() + 1, this.date.getYYYY()
             );
             refreshButtons();
@@ -206,7 +207,7 @@ public class SerialDateChooserPanel extends JPanel implements ActionListener {
             if (!this.refreshing) {
                 final JComboBox c = (JComboBox) e.getSource();
                 final Integer y = (Integer) c.getSelectedItem();
-                this.date = DayDate.createInstance(
+                this.date = DayDateFactory.makeDate(
                     this.date.getDayOfMonth(), this.date.getMonth(), y.intValue()
                 );
                 refreshYearSelector();
@@ -214,7 +215,7 @@ public class SerialDateChooserPanel extends JPanel implements ActionListener {
             }
         }
         else if (e.getActionCommand().equals("todayButtonClicked")) {
-            setDate(DayDate.createInstance(new Date()));
+            setDate(DayDateFactory.makeDate(new Date()));
         }
         else if (e.getActionCommand().equals("dateButtonClicked")) {
             final JButton b = (JButton) e.getSource();
@@ -288,7 +289,7 @@ public class SerialDateChooserPanel extends JPanel implements ActionListener {
      */
     protected DayDate getFirstVisibleDate() {
 
-        DayDate result = DayDate.createInstance(1, this.date.getMonth(), this.date.getYYYY());
+        DayDate result = DayDateFactory.makeDate(1, this.date.getMonth(), this.date.getYYYY());
         result = DayDate.addDays(-1, result);
         while (result.getDayOfWeek() != getFirstDayOfWeek()) {
             result = DayDate.addDays(-1, result);

@@ -28,31 +28,53 @@ public abstract class DayDateFactory {
 
     protected abstract int _getMaximumYear();
 
-    protected static DayDate makeDate(int ordinal) {
+    /**
+     * Factory method that returns an instance of some concrete subclass of
+     * {@link DayDate}.
+     *
+     * @param ordinal the serial number for the day (1 January 1900 = 2).
+     * @return a instance of SerialDate.
+     */
+    public static DayDate makeDate(int ordinal) {
         return factory._makeDate(ordinal);
     }
 
-    protected static DayDate makeDate(int day, DayDate.Month month, int year) {
+    public static DayDate makeDate(int day, DayDate.Month month, int year) {
         return factory._makeDate(day, month, year);
     }
 
-    protected static DayDate makeDate(int day, int month, int year) {
+    /**
+     * Factory method that returns an instance of some concrete subclass of
+     * {@link DayDate}.
+     *
+     * @param day   the day (1-31).
+     * @param month the month (1-12).
+     * @param year  the year (in the range 1900 to 9999).
+     * @return An instance of {@link DayDate}.
+     */
+    public static DayDate makeDate(int day, int month, int year) {
         return factory._makeDate(day, month, year);
     }
 
-    protected static DayDate makeDate(Date date) {
+    /**
+     * Factory method that returns an instance of a subclass of SerialDate.
+     *
+     * @param date A Java date object.
+     * @return a instance of SerialDate.
+     */
+    public static DayDate makeDate(Date date) {
         return factory._makeDate(date);
     }
 
-    protected static DayDate makeDate(LocalDate localDate) {
+    public static DayDate makeDate(LocalDate localDate) {
         return factory._makeDate(localDate);
     }
 
-    protected static int getMinimumYear() {
+    public static int getMinimumYear() {
         return factory._getMinimumYear();
     }
 
-    protected static int getMaximumYear() {
+    public static int getMaximumYear() {
         return factory._getMaximumYear();
     }
 }
