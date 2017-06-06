@@ -203,7 +203,7 @@ public abstract class DayDate implements Comparable, Serializable {
     public static Optional<DayOfWeek> stringToWeekdayCode(final String s) {
         return Stream.of(DATE_FORMAT_SYMBOLS.getShortWeekdays(), DATE_FORMAT_SYMBOLS.getWeekdays())
                 .flatMap(names -> IntStream.range(0, names.length)
-                        .filter(value -> names[value].equalsIgnoreCase(s.trim())).boxed())
+                        .filter(index -> names[index].equalsIgnoreCase(s.trim())).boxed())
                 .map(DayOfWeek::make)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
@@ -308,37 +308,18 @@ public abstract class DayDate implements Comparable, Serializable {
      * @return <code>-1</code> if the string is not parseable, the month of the
      * year otherwise.
      */
-    public static int stringToMonthCode(String s) {
-
-        final String[] shortMonthNames = DATE_FORMAT_SYMBOLS.getShortMonths();
-        final String[] monthNames = DATE_FORMAT_SYMBOLS.getMonths();
-
-        int result = -1;
-        s = s.trim();
-
-        // first try parsing the string as an integer (1-12)...
+    public static Optional<Month> stringToMonthCode(final String s) {
         try {
-            result = Integer.parseInt(s);
+            return Month.make(Integer.parseInt(s.trim()));
         } catch (NumberFormatException e) {
-            // suppress
+            return Stream.of(DATE_FORMAT_SYMBOLS.getShortMonths(), DATE_FORMAT_SYMBOLS.getMonths())
+                    .flatMap(names -> IntStream.range(0, names.length)
+                            .filter(index -> names[index].equalsIgnoreCase(s.trim())).boxed())
+                    .map(monthIndex -> Month.make(monthIndex + 1)) // + 1 to transform array index to month ordinal
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .findAny();
         }
-
-        // now search through the month names...
-        if ((result < 1) || (result > 12)) {
-            for (int i = 0; i < monthNames.length; i++) {
-                if (s.equals(shortMonthNames[i])) {
-                    result = i + 1;
-                    break;
-                }
-                if (s.equals(monthNames[i])) {
-                    result = i + 1;
-                    break;
-                }
-            }
-        }
-
-        return result;
-
     }
 
     /**
