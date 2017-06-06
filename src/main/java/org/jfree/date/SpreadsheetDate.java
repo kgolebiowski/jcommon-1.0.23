@@ -55,6 +55,7 @@
 
 package org.jfree.date;
 
+import org.jfree.date.units.DayOfWeek;
 import org.jfree.date.units.Month;
 
 import java.util.Calendar;
@@ -107,7 +108,7 @@ public class SpreadsheetDate extends DayDate {
     private final int day;
 
     /** The month of the year (1 to 12). */
-    private final int month;
+    private final Month month;
 
     /** The year (1900 to 9999). */
     private final int year;
@@ -132,7 +133,7 @@ public class SpreadsheetDate extends DayDate {
 
         if ((month >= Month.JANUARY.index)
                 && (month <= Month.DECEMBER.index)) {
-            this.month = month;
+            this.month = Month.make(month).get();
         }
         else {
             throw new IllegalArgumentException(
@@ -207,11 +208,11 @@ public class SpreadsheetDate extends DayDate {
           mm = mm + 1;
           sss = ss2 + daysToEndOfPrecedingMonth[mm] - 1;
       }
-      this.month = mm - 1;
+      this.month = Month.make(mm - 1).get();
 
       // what's left is d(+1);
       this.day = this.serial - ss2 
-                 - daysToEndOfPrecedingMonth[this.month] + 1;
+                 - daysToEndOfPrecedingMonth[this.month.index] + 1;
 
     }
 
@@ -233,7 +234,7 @@ public class SpreadsheetDate extends DayDate {
      */
     public Date toDate() {
         final Calendar calendar = Calendar.getInstance();
-        calendar.set(getYYYY(), getMonth() - 1, getDayOfMonth(), 0, 0, 0);
+        calendar.set(getYYYY(), getMonth().index - 1, getDayOfMonth(), 0, 0, 0);
         return calendar.getTime();
     }
 
@@ -251,7 +252,7 @@ public class SpreadsheetDate extends DayDate {
      *
      * @return The month of the year.
      */
-    public int getMonth() {
+    public Month getMonth() {
         return this.month;
     }
 
@@ -274,8 +275,8 @@ public class SpreadsheetDate extends DayDate {
      *
      * @return A code representing the day of the week.
      */
-    public int getDayOfWeek() {
-        return (this.serial + 6) % 7 + 1;
+    public DayOfWeek getDayOfWeek() {
+        return DayOfWeek.make((this.serial + 6) % 7 + 1).get();
     }
 
     /**

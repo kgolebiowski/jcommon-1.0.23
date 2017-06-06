@@ -222,33 +222,33 @@ public class DayDateTest extends TestCase {
      * Test the conversion of a string to a month.  Note that this test will fail if the default
      * locale doesn't use English month names...devise a better test!
      */
-    public void testStringToMonthCode() {
+    public void testFactoringMonths() {
 
-        Optional<Month> m = Month.stringToMonthCode("1");
+        Optional<Month> m = Month.make("1");
         assertEquals(Optional.of(JANUARY), m);
 
-        m = Month.stringToMonthCode("January");
+        m = Month.make("January");
         assertEquals(Optional.of(JANUARY), m);
 
-        m = Month.stringToMonthCode("December");
+        m = Month.make("December");
         assertEquals(Optional.of(DECEMBER), m);
 
-        m = Month.stringToMonthCode(" January ");
+        m = Month.make(" January ");
         assertEquals(Optional.of(JANUARY), m);
 
-        m = Month.stringToMonthCode("january");
+        m = Month.make("january");
         assertEquals(Optional.of(JANUARY), m);
 
-        m = Month.stringToMonthCode("Jan");
+        m = Month.make("Jan");
         assertEquals(Optional.of(JANUARY), m);
 
-        m = Month.stringToMonthCode("Dec");
+        m = Month.make("Dec");
         assertEquals(Optional.of(DECEMBER), m);
 
-        m = Month.stringToMonthCode("jan");
+        m = Month.make("jan");
         assertEquals(Optional.of(JANUARY), m);
 
-        m = Month.stringToMonthCode("");
+        m = Month.make("");
         assertEquals(Optional.empty(), m);
 
     }
@@ -257,10 +257,9 @@ public class DayDateTest extends TestCase {
      * Tests the conversion of a month code to a string.
      */
     public void testMonthCodeToStringCode() {
-
-        final String test = Month.monthCodeToString(DECEMBER.index);
-        assertEquals("December", test);
-
+        assertEquals("January", JANUARY.toString());
+        assertEquals("December", DECEMBER.toString());
+        assertEquals("Dec", DECEMBER.toString(true));
     }
 
     /**
@@ -354,17 +353,17 @@ public class DayDateTest extends TestCase {
 
         DayDate d2 = DayDate.addMonths(1, d1);
         assertEquals(30, d2.getDayOfMonth());
-        assertEquals(6, d2.getMonth());
+        assertEquals(6, d2.getMonth().index);
         assertEquals(2004, d2.getYYYY());
 
         DayDate d3 = DayDate.addMonths(2, d1);
         assertEquals(31, d3.getDayOfMonth());
-        assertEquals(7, d3.getMonth());
+        assertEquals(7, d3.getMonth().index);
         assertEquals(2004, d3.getYYYY());
 
         DayDate d4 = DayDate.addMonths(1, DayDate.addMonths(1, d1));
         assertEquals(30, d4.getDayOfMonth());
-        assertEquals(7, d4.getMonth());
+        assertEquals(7, d4.getMonth().index);
         assertEquals(2004, d4.getYYYY());
     }
 

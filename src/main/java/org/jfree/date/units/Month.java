@@ -20,19 +20,12 @@ public enum Month {
         this.index = index;
     }
 
-    public static Optional<Month> make(int monthIndex) {
-        return Arrays.stream(Month.values())
-                .filter(month -> month.index == monthIndex)
-                .findAny();
-    }
-
     /**
      * Returns an array of month names.
      *
      * @return an array of month names.
      */
     public static String[] getMonths() {
-
         return getMonths(false);
 
     }
@@ -45,7 +38,6 @@ public enum Month {
      * @return an array of month names.
      */
     public static String[] getMonths(final boolean shortened) {
-
         if (shortened) {
             return DayDate.DATE_FORMAT_SYMBOLS.getShortMonths();
         } else {
@@ -54,62 +46,7 @@ public enum Month {
 
     }
 
-    /**
-     * Returns a string representing the supplied month.
-     * <p>
-     * The string returned is the long form of the month name taken from the
-     * default locale.
-     *
-     * @param month the month.
-     * @return a string representing the supplied month.
-     */
-    public static String monthCodeToString(final int month) {
-        return monthCodeToString(month, false);
-
-    }
-
-    /**
-     * Returns a string representing the supplied month.
-     * <p>
-     * The string returned is the long or short form of the month name taken
-     * from the default locale.
-     *
-     * @param month     the month.
-     * @param shortened if <code>true</code> return the abbreviation of the
-     *                  month.
-     * @return a string representing the supplied month.
-     */
-    public static String monthCodeToString(final int month, final boolean shortened) {
-
-        if (!make(month).isPresent()) {
-            throw new IllegalArgumentException(
-                    "SerialDate.monthCodeToString: month outside valid range.");
-        }
-
-        final String[] months;
-
-        if (shortened) {
-            months = DayDate.DATE_FORMAT_SYMBOLS.getShortMonths();
-        } else {
-            months = DayDate.DATE_FORMAT_SYMBOLS.getMonths();
-        }
-
-        return months[month - 1];
-
-    }
-
-    /**
-     * Converts a string to a month code.
-     * <p>
-     * This method will return one of the constants JANUARY, FEBRUARY, ...,
-     * DECEMBER that corresponds to the string.  If the string is not
-     * recognised, this method returns -1.
-     *
-     * @param s the string to parse.
-     * @return <code>-1</code> if the string is not parseable, the month of the
-     * year otherwise.
-     */
-    public static Optional<Month> stringToMonthCode(final String s) {
+    public static Optional<Month> make(final String s) {
         try {
             return make(Integer.parseInt(s.trim()));
         } catch (NumberFormatException e) {
@@ -121,5 +58,46 @@ public enum Month {
                     .map(Optional::get)
                     .findAny();
         }
+    }
+
+    public static Optional<Month> make(int monthIndex) {
+        return Arrays.stream(Month.values())
+                .filter(month -> month.index == monthIndex)
+                .findAny();
+    }
+
+    /**
+     * Returns a string representing the supplied month.
+     * <p>
+     * The string returned is the long form of the month name taken from the
+     * default locale.
+     *
+     * @return a string representing the supplied month.
+     */
+    public String toString() {
+        return toString(false);
+    }
+
+    /**
+     * Returns a string representing the supplied month.
+     * <p>
+     * The string returned is the long or short form of the month name taken
+     * from the default locale.
+     *
+     * @param shortened if <code>true</code> return the abbreviation of the
+     *                  month.
+     * @return a string representing the supplied month.
+     */
+    public String toString(boolean shortened) {
+        final String[] months;
+
+        if (shortened) {
+            months = DayDate.DATE_FORMAT_SYMBOLS.getShortMonths();
+        } else {
+            months = DayDate.DATE_FORMAT_SYMBOLS.getMonths();
+        }
+
+        return months[this.index - 1];
+
     }
 }

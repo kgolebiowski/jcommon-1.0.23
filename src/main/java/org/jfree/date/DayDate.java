@@ -242,9 +242,9 @@ public abstract class DayDate implements Comparable, Serializable {
     public static DayDate addMonths(final int months,
                                     final DayDate base) {
 
-        final int yy = (12 * base.getYYYY() + base.getMonth() + months - 1)
+        final int yy = (12 * base.getYYYY() + base.getMonth().index + months - 1)
                 / 12;
-        final int mm = (12 * base.getYYYY() + base.getMonth() + months - 1)
+        final int mm = (12 * base.getYYYY() + base.getMonth().index + months - 1)
                 % 12 + 1;
         final int dd = Math.min(
                 base.getDayOfMonth(), DayDate.lastDayOfMonth(mm, yy)
@@ -264,7 +264,7 @@ public abstract class DayDate implements Comparable, Serializable {
     public static DayDate addYears(final int years, final DayDate base) {
 
         final int baseY = base.getYYYY();
-        final int baseM = base.getMonth();
+        final int baseM = base.getMonth().index;
         final int baseD = base.getDayOfMonth();
 
         final int targetY = baseY + years;
@@ -297,7 +297,7 @@ public abstract class DayDate implements Comparable, Serializable {
 
         // find the date...
         final int adjust;
-        final int baseDOW = base.getDayOfWeek();
+        final int baseDOW = base.getDayOfWeek().index;
         if (baseDOW > targetWeekday) {
             adjust = Math.min(0, targetWeekday - baseDOW);
         } else {
@@ -329,7 +329,7 @@ public abstract class DayDate implements Comparable, Serializable {
 
         // find the date...
         final int adjust;
-        final int baseDOW = base.getDayOfWeek();
+        final int baseDOW = base.getDayOfWeek().index;
         if (baseDOW >= targetWeekday) {
             adjust = 7 + Math.min(0, targetWeekday - baseDOW);
         } else {
@@ -359,7 +359,7 @@ public abstract class DayDate implements Comparable, Serializable {
         }
 
         // find the date...
-        final int baseDOW = base.getDayOfWeek();
+        final int baseDOW = base.getDayOfWeek().index;
         int adjust = -Math.abs(targetDOW - baseDOW);
         if (adjust >= 4) {
             adjust = 7 - adjust;
@@ -379,7 +379,7 @@ public abstract class DayDate implements Comparable, Serializable {
      */
     public DayDate getEndOfCurrentMonth(final DayDate base) {
         final int last = DayDate.lastDayOfMonth(
-                base.getMonth(), base.getYYYY()
+                base.getMonth().index, base.getYYYY()
         );
         return DayDateFactory.makeDate(last, base.getMonth(), base.getYYYY());
     }
@@ -430,8 +430,7 @@ public abstract class DayDate implements Comparable, Serializable {
      * @return a string representation of the date.
      */
     public String toString() {
-        return getDayOfMonth() + "-" + Month.monthCodeToString(getMonth())
-                + "-" + getYYYY();
+        return getDayOfMonth() + "-" + getMonth() + "-" + getYYYY();
     }
 
     /**
@@ -446,7 +445,7 @@ public abstract class DayDate implements Comparable, Serializable {
      *
      * @return the month of the year.
      */
-    public abstract int getMonth();
+    public abstract Month getMonth();
 
     /**
      * Returns the day of the month.
@@ -460,7 +459,7 @@ public abstract class DayDate implements Comparable, Serializable {
      *
      * @return the day of the week.
      */
-    public abstract int getDayOfWeek();
+    public abstract DayOfWeek getDayOfWeek();
 
     /**
      * Returns the difference (in days) between this date and the specified
