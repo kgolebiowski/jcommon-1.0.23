@@ -50,9 +50,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.jfree.date.units.Month;
+import org.jfree.date.units.DayOfWeek;
 
 import java.io.*;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -149,7 +149,7 @@ public class DayDateTest extends TestCase {
         );
 
         assertEquals(
-                LocalDate.of(2004, 12, 25).with(next(DayOfWeek.SATURDAY)).getDayOfMonth(),
+                LocalDate.of(2004, 12, 25).with(next(java.time.DayOfWeek.SATURDAY)).getDayOfMonth(),
                 mondayAfter.getDayOfMonth());
     }
 
@@ -177,9 +177,7 @@ public class DayDateTest extends TestCase {
      * result depends on the Locale so this test needs to be modified.
      */
     public void testWeekdayCodeToString() {
-
-        final String test = weekdayCodeToString(SATURDAY.index);
-        assertEquals("Saturday", test);
+        assertEquals("Saturday", SATURDAY.toString());
 
     }
 
@@ -189,31 +187,31 @@ public class DayDateTest extends TestCase {
      */
     public void testStringToWeekday() {
 
-        Optional<org.jfree.date.units.DayOfWeek> weekday = stringToWeekdayCode("Monday");
+        Optional<DayOfWeek> weekday = DayOfWeek.make("Monday");
         assertEquals(Optional.of(MONDAY), weekday);
 
-        weekday = stringToWeekdayCode("Friday");
+        weekday = DayOfWeek.make("Friday");
         assertEquals(Optional.of(FRIDAY), weekday);
 
-        weekday = stringToWeekdayCode("Wednesday");
+        weekday = DayOfWeek.make("Wednesday");
         assertEquals(Optional.of(WEDNESDAY), weekday);
 
-        weekday = stringToWeekdayCode(" Wednesday ");
+        weekday = DayOfWeek.make(" Wednesday ");
         assertEquals(Optional.of(WEDNESDAY), weekday);
 
-        weekday = stringToWeekdayCode("wednesday");
+        weekday = DayOfWeek.make("wednesday");
         assertEquals(Optional.of(WEDNESDAY), weekday);
 
-        weekday = stringToWeekdayCode("Wed");
+        weekday = DayOfWeek.make("Wed");
         assertEquals(Optional.of(WEDNESDAY), weekday);
 
-        weekday = stringToWeekdayCode("wed");
+        weekday = DayOfWeek.make("wed");
         assertEquals(Optional.of(WEDNESDAY), weekday);
 
-        weekday = stringToWeekdayCode("blah");
+        weekday = DayOfWeek.make("blah");
         assertEquals(Optional.empty(), weekday);
 
-        weekday = stringToWeekdayCode("");
+        weekday = DayOfWeek.make("");
         assertEquals(Optional.empty(), weekday);
 
     }

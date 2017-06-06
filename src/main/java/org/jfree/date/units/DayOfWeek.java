@@ -27,7 +27,7 @@ public enum DayOfWeek {
                 .findAny();
     }
 
-    public static Optional<DayOfWeek> stringToWeekdayCode(final String s) {
+    public static Optional<DayOfWeek> make(final String s) {
         return Stream.of(DayDate.DATE_FORMAT_SYMBOLS.getShortWeekdays(), DayDate.DATE_FORMAT_SYMBOLS.getWeekdays())
                 .flatMap(names -> IntStream.range(0, names.length)
                         .filter(index -> names[index].equalsIgnoreCase(s.trim())).boxed())
@@ -42,13 +42,10 @@ public enum DayOfWeek {
      * <p>
      * Need to find a better approach.
      *
-     * @param weekday the day of the week.
      * @return a string representing the supplied day-of-the-week.
      */
-    public static String weekdayCodeToString(final int weekday) {
-
+    public String toString() {
         final String[] weekdays = DayDate.DATE_FORMAT_SYMBOLS.getWeekdays();
-        return weekdays[weekday];
-
+        return weekdays[this.index];
     }
 }
