@@ -184,10 +184,9 @@ public abstract class DayDate implements Comparable, Serializable {
      * @return the number of leap years from 1900 to the specified year.
      */
     public static int leapYearCount(final int yyyy) {
-
-        final int leap4 = (yyyy - 1896) / 4;
-        final int leap100 = (yyyy - 1800) / 100;
-        final int leap400 = (yyyy - 1600) / 400;
+        int leap4 = (yyyy - 1896) / 4;
+        int leap100 = (yyyy - 1800) / 100;
+        int leap400 = (yyyy - 1600) / 400;
         return leap4 - leap100 + leap400;
 
     }
@@ -200,17 +199,15 @@ public abstract class DayDate implements Comparable, Serializable {
      * @param yyyy  the year (in the range 1900 to 9999).
      * @return the number of the last day of the month.
      */
-    public static int lastDayOfMonth(final int month, final int yyyy) {
-
-        final int result = LAST_DAY_OF_MONTH[month];
-        if (month != Month.FEBRUARY.index) {
+    public static int lastDayOfMonth(Month month, int yyyy) {
+        int result = LAST_DAY_OF_MONTH[month.index];
+        if (month != Month.FEBRUARY) {
             return result;
         } else if (isLeapYear(yyyy)) {
             return result + 1;
         } else {
             return result;
         }
-
     }
 
     /**
@@ -218,14 +215,10 @@ public abstract class DayDate implements Comparable, Serializable {
      * date.
      *
      * @param days the number of days to add (can be negative).
-     * @param base the base date.
      * @return a new date.
      */
-    public static DayDate addDays(final int days, final DayDate base) {
-
-        final int serialDayNumber = base.toSerial() + days;
-        return DayDateFactory.makeDate(serialDayNumber);
-
+    public DayDate plusDays(int days) {
+        return DayDateFactory.makeDate(this.toOrdinal() + days);
     }
 
     /**
@@ -236,21 +229,15 @@ public abstract class DayDate implements Comparable, Serializable {
      * may be adjusted slightly:  31 May + 1 month = 30 June.
      *
      * @param months the number of months to add (can be negative).
-     * @param base   the base date.
      * @return a new date.
      */
-    public static DayDate addMonths(final int months,
-                                    final DayDate base) {
-
-        final int yy = (12 * base.getYYYY() + base.getMonth().index + months - 1)
-                / 12;
-        final int mm = (12 * base.getYYYY() + base.getMonth().index + months - 1)
-                % 12 + 1;
-        final int dd = Math.min(
-                base.getDayOfMonth(), DayDate.lastDayOfMonth(mm, yy)
+    public DayDate plusMonths(int months) {
+        int yy = (12 * this.getYYYY() + this.getMonth().index + months - 1) / 12;
+        int mm = (12 * this.getYYYY() + this.getMonth().index + months - 1) % 12 + 1;
+        int dd = Math.min(
+                this.getDayOfMonth(), DayDate.lastDayOfMonth(Month.make(mm).get(), yy)
         );
         return DayDateFactory.makeDate(dd, mm, yy);
-
     }
 
     /**
@@ -258,22 +245,19 @@ public abstract class DayDate implements Comparable, Serializable {
      * date.
      *
      * @param years the number of years to add (can be negative).
-     * @param base  the base date.
      * @return A new date.
      */
-    public static DayDate addYears(final int years, final DayDate base) {
+    public DayDate plusYears(int years) {
+        int baseY = this.getYYYY();
+        Month baseM = this.getMonth();
+        int baseD = this.getDayOfMonth();
 
-        final int baseY = base.getYYYY();
-        final int baseM = base.getMonth().index;
-        final int baseD = base.getDayOfMonth();
-
-        final int targetY = baseY + years;
-        final int targetD = Math.min(
+        int targetY = baseY + years;
+        int targetD = Math.min(
                 baseD, DayDate.lastDayOfMonth(baseM, targetY)
         );
 
         return DayDateFactory.makeDate(targetD, baseM, targetY);
-
     }
 
     /**
@@ -296,15 +280,15 @@ public abstract class DayDate implements Comparable, Serializable {
         }
 
         // find the date...
-        final int adjust;
-        final int baseDOW = base.getDayOfWeek().index;
+        int adjust;
+        int baseDOW = base.getDayOfWeek().index;
         if (baseDOW > targetWeekday) {
             adjust = Math.min(0, targetWeekday - baseDOW);
         } else {
             adjust = -7 + Math.max(0, targetWeekday - baseDOW);
         }
 
-        return DayDate.addDays(adjust, base);
+        return base.plusDays(adjust);
 
     }
 
@@ -336,7 +320,7 @@ public abstract class DayDate implements Comparable, Serializable {
             adjust = Math.max(0, targetWeekday - baseDOW);
         }
 
-        return DayDate.addDays(adjust, base);
+        return base.plusDays(adjust);
     }
 
     /**
@@ -367,7 +351,7 @@ public abstract class DayDate implements Comparable, Serializable {
         if (adjust <= -4) {
             adjust = 7 + adjust;
         }
-        return DayDate.addDays(adjust, base);
+        return base.plusDays(adjust);
 
     }
 
@@ -379,7 +363,7 @@ public abstract class DayDate implements Comparable, Serializable {
      */
     public DayDate getEndOfCurrentMonth(final DayDate base) {
         final int last = DayDate.lastDayOfMonth(
-                base.getMonth().index, base.getYYYY()
+                base.getMonth(), base.getYYYY()
         );
         return DayDateFactory.makeDate(last, base.getMonth(), base.getYYYY());
     }
@@ -414,7 +398,7 @@ public abstract class DayDate implements Comparable, Serializable {
      *
      * @return the serial number for the date.
      */
-    public abstract int toSerial();
+    public abstract int toOrdinal();
 
     /**
      * Returns a java.util.Date.  Since java.util.Date has more precision than

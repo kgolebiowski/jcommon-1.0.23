@@ -20,24 +20,11 @@ public enum Month {
         this.index = index;
     }
 
-    /**
-     * Returns an array of month names.
-     *
-     * @return an array of month names.
-     */
-    public static String[] getMonths() {
-        return getMonths(false);
-
+    public static String[] getMonthsNames() {
+        return getMonthsNames(false);
     }
 
-    /**
-     * Returns an array of month names.
-     *
-     * @param shortened a flag indicating that shortened month names should
-     *                  be returned.
-     * @return an array of month names.
-     */
-    public static String[] getMonths(final boolean shortened) {
+    public static String[] getMonthsNames(boolean shortened) {
         if (shortened) {
             return DayDate.DATE_FORMAT_SYMBOLS.getShortMonths();
         } else {
@@ -46,13 +33,13 @@ public enum Month {
 
     }
 
-    public static Optional<Month> make(final String s) {
+    public static Optional<Month> make(final String monthAsString) {
         try {
-            return make(Integer.parseInt(s.trim()));
+            return make(Integer.parseInt(monthAsString.trim()));
         } catch (NumberFormatException e) {
             return Stream.of(DayDate.DATE_FORMAT_SYMBOLS.getShortMonths(), DayDate.DATE_FORMAT_SYMBOLS.getMonths())
                     .flatMap(names -> IntStream.range(0, names.length)
-                            .filter(index -> names[index].equalsIgnoreCase(s.trim())).boxed())
+                            .filter(index -> names[index].equalsIgnoreCase(monthAsString.trim())).boxed())
                     .map(monthIndex -> make(monthIndex + 1)) // + 1 to transform array index to month ordinal
                     .filter(Optional::isPresent)
                     .map(Optional::get)
@@ -67,37 +54,19 @@ public enum Month {
     }
 
     /**
-     * Returns a string representing the supplied month.
-     * <p>
-     * The string returned is the long form of the month name taken from the
-     * default locale.
-     *
-     * @return a string representing the supplied month.
+     * @return a string representing the supplied month (taken from the
+     * default locale).
      */
     public String toString() {
-        return toString(false);
+        return DayDate.DATE_FORMAT_SYMBOLS.getMonths()[index -1];
     }
 
     /**
-     * Returns a string representing the supplied month.
-     * <p>
-     * The string returned is the long or short form of the month name taken
-     * from the default locale.
-     *
-     * @param shortened if <code>true</code> return the abbreviation of the
-     *                  month.
-     * @return a string representing the supplied month.
+     * @return an abbreviation representing the supplied month (taken
+     * from the default locale).
      */
-    public String toString(boolean shortened) {
-        final String[] months;
-
-        if (shortened) {
-            months = DayDate.DATE_FORMAT_SYMBOLS.getShortMonths();
-        } else {
-            months = DayDate.DATE_FORMAT_SYMBOLS.getMonths();
-        }
-
-        return months[this.index - 1];
+    public String toShortString() {
+        return DayDate.DATE_FORMAT_SYMBOLS.getShortMonths()[this.index - 1];
 
     }
 }

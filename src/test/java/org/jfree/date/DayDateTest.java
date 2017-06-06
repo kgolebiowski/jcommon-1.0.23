@@ -100,7 +100,7 @@ public class DayDateTest extends TestCase {
      * 9 Nov 2001 plus two months should be 9 Jan 2002.
      */
     public void testAddMonthsTo9Nov2001() {
-        final DayDate jan9Y2002 = DayDate.addMonths(2, this.nov9Y2001);
+        final DayDate jan9Y2002 = this.nov9Y2001.plusMonths(2);
         final DayDate answer = DayDateFactory.makeDate(9, 1, 2002);
         assertEquals(answer, jan9Y2002);
     }
@@ -110,7 +110,7 @@ public class DayDateTest extends TestCase {
      */
     public void testAddMonthsTo5Oct2003() {
         final DayDate d1 = DayDateFactory.makeDate(5, Month.OCTOBER.index, 2003);
-        final DayDate d2 = DayDate.addMonths(2, d1);
+        final DayDate d2 = d1.plusMonths(2);
         assertEquals(d2, DayDateFactory.makeDate(5, DECEMBER.index, 2003));
     }
 
@@ -119,7 +119,7 @@ public class DayDateTest extends TestCase {
      */
     public void testAddMonthsTo1Jan2003() {
         final DayDate d1 = DayDateFactory.makeDate(1, JANUARY.index, 2003);
-        final DayDate d2 = DayDate.addMonths(0, d1);
+        final DayDate d2 = d1.plusMonths(0);
         assertEquals(d2, d1);
     }
 
@@ -257,7 +257,7 @@ public class DayDateTest extends TestCase {
     public void testMonthCodeToStringCode() {
         assertEquals("January", JANUARY.toString());
         assertEquals("December", DECEMBER.toString());
-        assertEquals("Dec", DECEMBER.toString(true));
+        assertEquals("Dec", DECEMBER.toShortString());
     }
 
     /**
@@ -338,28 +338,28 @@ public class DayDateTest extends TestCase {
      */
     public void test1096282() {
         DayDate d = DayDateFactory.makeDate(29, 2, 2004);
-        d = DayDate.addYears(1, d);
+        d = d.plusYears(1);
         DayDate expected = DayDateFactory.makeDate(28, 2, 2005);
         assertTrue(d.isOn(expected));
     }
 
     /**
-     * Miscellaneous tests for the addMonths() method.
+     * Miscellaneous tests for the plusMonths() method.
      */
     public void testAddMonths() {
         DayDate d1 = DayDateFactory.makeDate(31, 5, 2004);
 
-        DayDate d2 = DayDate.addMonths(1, d1);
+        DayDate d2 = d1.plusMonths(1);
         assertEquals(30, d2.getDayOfMonth());
         assertEquals(6, d2.getMonth().index);
         assertEquals(2004, d2.getYYYY());
 
-        DayDate d3 = DayDate.addMonths(2, d1);
+        DayDate d3 = d1.plusMonths(2);
         assertEquals(31, d3.getDayOfMonth());
         assertEquals(7, d3.getMonth().index);
         assertEquals(2004, d3.getYYYY());
 
-        DayDate d4 = DayDate.addMonths(1, DayDate.addMonths(1, d1));
+        DayDate d4 = d1.plusMonths(1).plusMonths(1);
         assertEquals(30, d4.getDayOfMonth());
         assertEquals(7, d4.getMonth().index);
         assertEquals(2004, d4.getYYYY());

@@ -27,25 +27,17 @@ public enum DayOfWeek {
                 .findAny();
     }
 
-    public static Optional<DayOfWeek> make(final String s) {
+    public static Optional<DayOfWeek> make(final String dayOfWeekAsString) {
         return Stream.of(DayDate.DATE_FORMAT_SYMBOLS.getShortWeekdays(), DayDate.DATE_FORMAT_SYMBOLS.getWeekdays())
                 .flatMap(names -> IntStream.range(0, names.length)
-                        .filter(index -> names[index].equalsIgnoreCase(s.trim())).boxed())
+                        .filter(index -> names[index].equalsIgnoreCase(dayOfWeekAsString.trim())).boxed())
                 .map(DayOfWeek::make)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findAny();
     }
 
-    /**
-     * Returns a string representing the supplied day-of-the-week.
-     * <p>
-     * Need to find a better approach.
-     *
-     * @return a string representing the supplied day-of-the-week.
-     */
     public String toString() {
-        final String[] weekdays = DayDate.DATE_FORMAT_SYMBOLS.getWeekdays();
-        return weekdays[this.index];
+        return DayDate.DATE_FORMAT_SYMBOLS.getWeekdays()[this.index];
     }
 }
