@@ -5,6 +5,8 @@ import org.jfree.date.DayDate;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Optional;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 /**
  * Created by kgolebiowski on 06/06/2017.
@@ -23,5 +25,30 @@ public enum DayOfWeek {
         return Arrays.stream(DayOfWeek.values())
                 .filter(dayOfWeek -> dayOfWeek.index == dayOfWeekIndex)
                 .findAny();
+    }
+
+    public static Optional<DayOfWeek> stringToWeekdayCode(final String s) {
+        return Stream.of(DayDate.DATE_FORMAT_SYMBOLS.getShortWeekdays(), DayDate.DATE_FORMAT_SYMBOLS.getWeekdays())
+                .flatMap(names -> IntStream.range(0, names.length)
+                        .filter(index -> names[index].equalsIgnoreCase(s.trim())).boxed())
+                .map(DayOfWeek::make)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findAny();
+    }
+
+    /**
+     * Returns a string representing the supplied day-of-the-week.
+     * <p>
+     * Need to find a better approach.
+     *
+     * @param weekday the day of the week.
+     * @return a string representing the supplied day-of-the-week.
+     */
+    public static String weekdayCodeToString(final int weekday) {
+
+        final String[] weekdays = DayDate.DATE_FORMAT_SYMBOLS.getWeekdays();
+        return weekdays[weekday];
+
     }
 }

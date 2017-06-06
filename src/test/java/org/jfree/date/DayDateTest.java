@@ -178,7 +178,7 @@ public class DayDateTest extends TestCase {
      */
     public void testWeekdayCodeToString() {
 
-        final String test = DayDate.weekdayCodeToString(SATURDAY.index);
+        final String test = weekdayCodeToString(SATURDAY.index);
         assertEquals("Saturday", test);
 
     }
@@ -189,31 +189,31 @@ public class DayDateTest extends TestCase {
      */
     public void testStringToWeekday() {
 
-        Optional<org.jfree.date.units.DayOfWeek> weekday = DayDate.stringToWeekdayCode("Monday");
+        Optional<org.jfree.date.units.DayOfWeek> weekday = stringToWeekdayCode("Monday");
         assertEquals(Optional.of(MONDAY), weekday);
 
-        weekday = DayDate.stringToWeekdayCode("Friday");
+        weekday = stringToWeekdayCode("Friday");
         assertEquals(Optional.of(FRIDAY), weekday);
 
-        weekday = DayDate.stringToWeekdayCode("Wednesday");
+        weekday = stringToWeekdayCode("Wednesday");
         assertEquals(Optional.of(WEDNESDAY), weekday);
 
-        weekday = DayDate.stringToWeekdayCode(" Wednesday ");
+        weekday = stringToWeekdayCode(" Wednesday ");
         assertEquals(Optional.of(WEDNESDAY), weekday);
 
-        weekday = DayDate.stringToWeekdayCode("wednesday");
+        weekday = stringToWeekdayCode("wednesday");
         assertEquals(Optional.of(WEDNESDAY), weekday);
 
-        weekday = DayDate.stringToWeekdayCode("Wed");
+        weekday = stringToWeekdayCode("Wed");
         assertEquals(Optional.of(WEDNESDAY), weekday);
 
-        weekday = DayDate.stringToWeekdayCode("wed");
+        weekday = stringToWeekdayCode("wed");
         assertEquals(Optional.of(WEDNESDAY), weekday);
 
-        weekday = DayDate.stringToWeekdayCode("blah");
+        weekday = stringToWeekdayCode("blah");
         assertEquals(Optional.empty(), weekday);
 
-        weekday = DayDate.stringToWeekdayCode("");
+        weekday = stringToWeekdayCode("");
         assertEquals(Optional.empty(), weekday);
 
     }
@@ -224,31 +224,31 @@ public class DayDateTest extends TestCase {
      */
     public void testStringToMonthCode() {
 
-        Optional<Month> m = DayDate.stringToMonthCode("1");
+        Optional<Month> m = Month.stringToMonthCode("1");
         assertEquals(Optional.of(JANUARY), m);
 
-        m = DayDate.stringToMonthCode("January");
+        m = Month.stringToMonthCode("January");
         assertEquals(Optional.of(JANUARY), m);
 
-        m = DayDate.stringToMonthCode("December");
+        m = Month.stringToMonthCode("December");
         assertEquals(Optional.of(DECEMBER), m);
 
-        m = DayDate.stringToMonthCode(" January ");
+        m = Month.stringToMonthCode(" January ");
         assertEquals(Optional.of(JANUARY), m);
 
-        m = DayDate.stringToMonthCode("january");
+        m = Month.stringToMonthCode("january");
         assertEquals(Optional.of(JANUARY), m);
 
-        m = DayDate.stringToMonthCode("Jan");
+        m = Month.stringToMonthCode("Jan");
         assertEquals(Optional.of(JANUARY), m);
 
-        m = DayDate.stringToMonthCode("Dec");
+        m = Month.stringToMonthCode("Dec");
         assertEquals(Optional.of(DECEMBER), m);
 
-        m = DayDate.stringToMonthCode("jan");
+        m = Month.stringToMonthCode("jan");
         assertEquals(Optional.of(JANUARY), m);
 
-        m = DayDate.stringToMonthCode("");
+        m = Month.stringToMonthCode("");
         assertEquals(Optional.empty(), m);
 
     }
@@ -258,7 +258,7 @@ public class DayDateTest extends TestCase {
      */
     public void testMonthCodeToStringCode() {
 
-        final String test = DayDate.monthCodeToString(DECEMBER.index);
+        final String test = Month.monthCodeToString(DECEMBER.index);
         assertEquals("December", test);
 
     }
