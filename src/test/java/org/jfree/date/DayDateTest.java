@@ -49,16 +49,17 @@ package org.jfree.date;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.jfree.date.units.DateRelation;
+import org.jfree.date.units.WeekdayRange;
 import org.jfree.date.units.Month;
 import org.jfree.date.units.DayOfWeek;
 import org.jfree.date.units.WeekOfMonth;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.time.temporal.TemporalAdjusters.next;
 import static org.jfree.date.units.DayOfWeek.*;
@@ -277,7 +278,7 @@ public class DayDateTest extends TestCase {
     }
 
     public void testDateRelationToString() {
-        assertEquals("Following", DateRelation.FOLLOWING.toString());
+        assertEquals("Following", WeekdayRange.FOLLOWING.toString());
     }
 
     /**
@@ -372,16 +373,31 @@ public class DayDateTest extends TestCase {
         DayDate d2 = d1.plusMonths(1);
         assertEquals(30, d2.getDayOfMonth());
         assertEquals(6, d2.getMonth().index);
-        assertEquals(2004, d2.getYYYY());
+        assertEquals(2004, d2.getYear());
 
         DayDate d3 = d1.plusMonths(2);
         assertEquals(31, d3.getDayOfMonth());
         assertEquals(7, d3.getMonth().index);
-        assertEquals(2004, d3.getYYYY());
+        assertEquals(2004, d3.getYear());
 
         DayDate d4 = d1.plusMonths(1).plusMonths(1);
         assertEquals(30, d4.getDayOfMonth());
         assertEquals(7, d4.getMonth().index);
-        assertEquals(2004, d4.getYYYY());
+        assertEquals(2004, d4.getYear());
+    }
+
+    public void testToDate() {
+        LocalDate java8Date = LocalDate.of(2017, 6, 6);
+        Date javaUtilDate = Date.from(java8Date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        Date fromDayDate = DayDateFactory.makeDate(java8Date).toDate();
+
+        assertEquals(fromDayDate.getDay(), javaUtilDate.getDay());
+        assertEquals(fromDayDate.getMonth(), javaUtilDate.getMonth());
+        assertEquals(fromDayDate.getYear(), javaUtilDate.getYear());
+    }
+
+    public void testToString() {
+        assertEquals("6-June-2017", DayDateFactory.makeDate(6, 6, 2017).toString());
     }
 }

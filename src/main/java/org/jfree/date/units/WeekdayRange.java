@@ -3,7 +3,7 @@ package org.jfree.date.units;
 /**
  * Created by kgolebiowski on 06/06/2017.
  */
-public enum DateRelation {
+public enum WeekdayRange {
     PRECEDING, NEAREST, FOLLOWING;
 
     @Override

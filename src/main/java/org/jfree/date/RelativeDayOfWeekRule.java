@@ -43,7 +43,7 @@
 
 package org.jfree.date;
 
-import org.jfree.date.units.DateRelation;
+import org.jfree.date.units.WeekdayRange;
 import org.jfree.date.units.DayOfWeek;
 
 /**
@@ -63,13 +63,13 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
 
     private DayOfWeek dayOfWeek;
 
-    private DateRelation dateRelation;
+    private WeekdayRange weekdayRange;
 
     /**
      * Default constructor - builds a rule for the Monday following 1 January.
      */
     public RelativeDayOfWeekRule() {
-        this(new DayAndMonthRule(), DayOfWeek.MONDAY, DateRelation.FOLLOWING);
+        this(new DayAndMonthRule(), DayOfWeek.MONDAY, WeekdayRange.FOLLOWING);
     }
 
     /**
@@ -80,10 +80,10 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
      * @param relation  indicates *which* day-of-the-week (preceding, nearest
      *                  or following).
      */
-    public RelativeDayOfWeekRule(AnnualDateRule subrule, DayOfWeek dayOfWeek, DateRelation relation) {
+    public RelativeDayOfWeekRule(AnnualDateRule subrule, DayOfWeek dayOfWeek, WeekdayRange relation) {
         this.subrule = subrule;
         this.dayOfWeek = dayOfWeek;
-        this.dateRelation = relation;
+        this.weekdayRange = relation;
     }
 
     /**
@@ -132,19 +132,19 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
      *
      * @return The 'dateRelation' attribute.
      */
-    public DateRelation getDateRelation() {
-        return this.dateRelation;
+    public WeekdayRange getWeekdayRange() {
+        return this.weekdayRange;
     }
 
     /**
      * Sets the 'dateRelation' attribute (SerialDate.PRECEDING, SerialDate.NEAREST,
      * SerialDate.FOLLOWING).
      *
-     * @param dateRelation  determines *which* day-of-the-week is selected by this
+     * @param weekdayRange  determines *which* day-of-the-week is selected by this
      *                  rule.
      */
-    public void setDateRelation(DateRelation dateRelation) {
-        this.dateRelation = dateRelation;
+    public void setWeekdayRange(WeekdayRange weekdayRange) {
+        this.weekdayRange = weekdayRange;
     }
 
     /**
@@ -183,7 +183,7 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
         DayDate base = subrule.getDate(year);
 
         if (base != null) {
-            switch (dateRelation) {
+            switch (weekdayRange) {
                 case PRECEDING:
                     result = base.getPreviousDayOfWeek(this.dayOfWeek);
                     break;

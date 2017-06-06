@@ -14,6 +14,8 @@ public enum Month {
     JANUARY(1), FEBRUARY(2), MARCH(3), APRIL(4), MAY(5), JUNE(6), JULY(7), AUGUST(8), SEPTEMBER(9), OCTOBER(10),
     NOVEMBER(11), DECEMBER(12);
 
+    public static final int[] LAST_DAY_OF_MONTH = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
     public final int index;
 
     Month(int index) {
@@ -30,7 +32,6 @@ public enum Month {
         } else {
             return DayDate.DATE_FORMAT_SYMBOLS.getMonths();
         }
-
     }
 
     public static Optional<Month> make(final String monthAsString) {
@@ -51,6 +52,24 @@ public enum Month {
         return Arrays.stream(Month.values())
                 .filter(month -> month.index == monthIndex)
                 .findAny();
+    }
+
+    /**
+     * Returns the number of the last day of the month, taking into account
+     * leap years.
+     *
+     * @param yyyy  the year (in the range 1900 to 9999).
+     * @return the number of the last day of the month.
+     */
+    public int lastDayOfMonth(int yyyy) {
+        int result = LAST_DAY_OF_MONTH[index];
+        if (this != FEBRUARY) {
+            return result;
+        } else if (DayDate.isLeapYear(yyyy)) {
+            return result + 1;
+        } else {
+            return result;
+        }
     }
 
     /**

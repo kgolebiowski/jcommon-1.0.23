@@ -105,14 +105,10 @@ public class DayAndMonthRule extends AnnualDateRule {
      * @param dayOfMonth  the day-of-the-month.
      */
     public void setDayOfMonth(final int dayOfMonth) {
-
-        // check arguments...
-        if ((dayOfMonth < 1) || (dayOfMonth > DayDate.LAST_DAY_OF_MONTH[this.month])) {
-            throw new IllegalArgumentException(
-                "DayAndMonthRule(): dayOfMonth outside valid range.");
+        if ((dayOfMonth < 1) || (dayOfMonth > Month.LAST_DAY_OF_MONTH[this.month])) {
+            throw new IllegalArgumentException("DayAndMonthRule(): dayOfMonth outside valid range.");
         }
 
-        // make the change...
         this.dayOfMonth = dayOfMonth;
 
     }

@@ -80,6 +80,23 @@ import org.jfree.date.units.Month;
  */
 public class SpreadsheetDate extends DayDate {
 
+    /**
+     * Useful range constant.
+     */
+    public static final int INCLUDE_NONE = 0;
+    /**
+     * Useful range constant.
+     */
+    public static final int INCLUDE_FIRST = 1;
+    /**
+     * Useful range constant.
+     */
+    public static final int INCLUDE_SECOND = 2;
+    /**
+     * Useful range constant.
+     */
+    public static final int INCLUDE_BOTH = 3;
+
     /** The highest year value supported by this date format. */
     static final int MAXIMUM_YEAR_SUPPORTED = 9999;
 
@@ -117,37 +134,24 @@ public class SpreadsheetDate extends DayDate {
      * @param month  the month (in the range 1 to 12).
      * @param year  the year (in the range 1900 to 9999).
      */
-    public SpreadsheetDate(final int day, final int month, final int year) {
-
+    public SpreadsheetDate(int day, int month, int year) {
         if ((year >= 1900) && (year <= 9999)) {
             this.year = year;
-        }
-        else {
-            throw new IllegalArgumentException(
-                "The 'year' argument must be in range 1900 to 9999."
-            );
+        } else {
+            throw new IllegalArgumentException("The 'year' argument must be in range 1900 to 9999.");
         }
 
-        if ((month >= Month.JANUARY.index)
-                && (month <= Month.DECEMBER.index)) {
-            this.month = Month.make(month).get();
-        }
-        else {
-            throw new IllegalArgumentException(
-                "The 'month' argument must be in the range 1 to 12."
-            );
-        }
+        this.month = Month.make(month)
+                .orElseThrow(() -> new IllegalArgumentException("The 'month' argument must be in the range 1 to 12."));
 
-        if ((day >= 1) && (day <= DayDate.lastDayOfMonth(Month.make(month).get(), year))) {
+        if ((day >= 1) && (day <= this.month.lastDayOfMonth(year))) {
             this.day = day;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Invalid 'day' argument.");
         }
 
         // the ordinalDay number needs to be synchronised with the day-month-year...
         this.ordinalDay = calcSerial(day, month, year);
-
     }
 
     /**
@@ -190,12 +194,10 @@ public class SpreadsheetDate extends DayDate {
 
       final int ss2 = calcSerial(1, 1, this.year);
 
-      int[] daysToEndOfPrecedingMonth 
-          = AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH;
+      int[] daysToEndOfPrecedingMonth = AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH;
 
       if (isLeapYear(this.year)) {
-          daysToEndOfPrecedingMonth 
-              = LEAP_YEAR_AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH;
+          daysToEndOfPrecedingMonth = LEAP_YEAR_AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH;
       }
 
       // get the month from the ordinalDay date
@@ -208,9 +210,7 @@ public class SpreadsheetDate extends DayDate {
       this.month = Month.make(mm - 1).get();
 
       // what's left is d(+1);
-      this.day = this.ordinalDay - ss2
-                 - daysToEndOfPrecedingMonth[this.month.index] + 1;
-
+      this.day = this.ordinalDay - ss2 - daysToEndOfPrecedingMonth[this.month.index] + 1;
     }
 
     /**
@@ -229,7 +229,7 @@ public class SpreadsheetDate extends DayDate {
      *
      * @return The year.
      */
-    public int getYYYY() {
+    public int getYear() {
         return this.year;
     }
 
@@ -396,7 +396,7 @@ public class SpreadsheetDate extends DayDate {
      * @return A boolean.
      */
     public boolean isInRange(final DayDate d1, final DayDate d2) {
-        return isInRange(d1, d2, DayDate.INCLUDE_BOTH);
+        return isInRange(d1, d2, INCLUDE_BOTH);
     }
 
     /**
@@ -412,26 +412,25 @@ public class SpreadsheetDate extends DayDate {
      * @return <code>true</code> if this SerialDate is within the specified 
      *         range.
      */
-    public boolean isInRange(final DayDate d1, final DayDate d2,
-                             final int include) {
-        final int s1 = d1.getOrdinalDay();
-        final int s2 = d2.getOrdinalDay();
-        final int start = Math.min(s1, s2);
-        final int end = Math.max(s1, s2);
+    public boolean isInRange(DayDate d1, DayDate d2, int include) {
+        int s1 = d1.getOrdinalDay();
+        int s2 = d2.getOrdinalDay();
+        int start = Math.min(s1, s2);
+        int end = Math.max(s1, s2);
         
-        final int s = getOrdinalDay();
-        if (include == DayDate.INCLUDE_BOTH) {
+        int s = getOrdinalDay();
+        if (include == INCLUDE_BOTH) {
             return (s >= start && s <= end);
         }
-        else if (include == DayDate.INCLUDE_FIRST) {
+        else if (include == INCLUDE_FIRST) {
             return (s >= start && s < end);            
         }
-        else if (include == DayDate.INCLUDE_SECOND) {
+        else if (include == INCLUDE_SECOND) {
             return (s > start && s <= end);            
         }
         else {
             return (s > start && s < end);            
-        }    
+        }
     }
 
     /**
