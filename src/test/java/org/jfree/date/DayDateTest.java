@@ -49,12 +49,16 @@ package org.jfree.date;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jfree.date.units.DateRelation;
 import org.jfree.date.units.Month;
 import org.jfree.date.units.DayOfWeek;
+import org.jfree.date.units.WeekOfMonth;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.time.temporal.TemporalAdjusters.next;
 import static org.jfree.date.units.DayOfWeek.*;
@@ -240,7 +244,12 @@ public class DayDateTest extends TestCase {
 
         m = Month.make("");
         assertEquals(Optional.empty(), m);
+    }
 
+    public void testMakeMonthFromItsOrdinal() {
+        assertEquals(Optional.of(JANUARY), Month.make(1));
+        assertEquals(Optional.of(DECEMBER), Month.make(12));
+        assertEquals(false, Month.make(13).isPresent());
     }
 
     /**
@@ -250,6 +259,25 @@ public class DayDateTest extends TestCase {
         assertEquals("January", JANUARY.toString());
         assertEquals("December", DECEMBER.toString());
         assertEquals("Dec", DECEMBER.toShortString());
+    }
+
+    public void testWeekOfMonth() {
+        assertEquals(Optional.of(WeekOfMonth.FIRST), WeekOfMonth.make(1));
+        assertEquals(Optional.of(WeekOfMonth.FOURTH), WeekOfMonth.make(4));
+        assertEquals(Optional.of(WeekOfMonth.LAST), WeekOfMonth.make(0));
+    }
+
+    public void testGetMonthsNames() {
+        assertEquals(13, Month.getMonthsNames().length); // @see DateFormatSymbols months[]
+        assertEquals("[January, February, March, April, May, June, " +
+                        "July, August, September, October, November, December, ]",
+                Arrays.toString(Month.getMonthsNames()));
+        assertEquals("[Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec, ]",
+                Arrays.toString(Month.getMonthsNames(true)));
+    }
+
+    public void testDateRelationToString() {
+        assertEquals("Following", DateRelation.FOLLOWING.toString());
     }
 
     /**
@@ -355,11 +383,5 @@ public class DayDateTest extends TestCase {
         assertEquals(30, d4.getDayOfMonth());
         assertEquals(7, d4.getMonth().index);
         assertEquals(2004, d4.getYYYY());
-    }
-
-    public void testMakeMonthFromItsIndex() {
-        assertEquals(Optional.of(JANUARY), Month.make(1));
-        assertEquals(Optional.of(DECEMBER), Month.make(12));
-        assertEquals(false, Month.make(13).isPresent());
     }
 }

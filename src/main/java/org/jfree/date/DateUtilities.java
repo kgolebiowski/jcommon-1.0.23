@@ -56,8 +56,7 @@ public class DateUtilities {
     /**
      * Private constructor to prevent object creation.
      */
-    private DateUtilities() {
-    }
+    private DateUtilities() { }
 
     /** A working calendar. */
     private static final Calendar CALENDAR = Calendar.getInstance();
@@ -89,12 +88,8 @@ public class DateUtilities {
      * @return a date.
      */
     public static synchronized Date createDate(final int yyyy, final int month, final int day, final int hour, final int min) {
-
         CALENDAR.clear();
         CALENDAR.set(yyyy, month - 1, day, hour, min);
         return CALENDAR.getTime();
-
     }
-
-
 }

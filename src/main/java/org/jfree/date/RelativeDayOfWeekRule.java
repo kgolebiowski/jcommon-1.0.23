@@ -43,6 +43,7 @@
 
 package org.jfree.date;
 
+import org.jfree.date.units.DateRelation;
 import org.jfree.date.units.DayOfWeek;
 
 /**
@@ -60,34 +61,29 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
     /** A reference to the annual date rule on which this rule is based. */
     private AnnualDateRule subrule;
 
-    /** 
-     * The day of the week (SerialDate.MONDAY, SerialDate.TUESDAY, and so on). 
-     */
     private DayOfWeek dayOfWeek;
 
-    /** Specifies which day of the week (PRECEDING, NEAREST or FOLLOWING). */
-    private int relative;
+    private DateRelation dateRelation;
 
     /**
      * Default constructor - builds a rule for the Monday following 1 January.
      */
     public RelativeDayOfWeekRule() {
-        this(new DayAndMonthRule(), DayOfWeek.MONDAY, DayDate.FOLLOWING);
+        this(new DayAndMonthRule(), DayOfWeek.MONDAY, DateRelation.FOLLOWING);
     }
 
     /**
      * Standard constructor - builds rule based on the supplied sub-rule.
      *
      * @param subrule  the rule that determines the reference date.
-     * @param dayOfWeek  the day-of-the-week relative to the reference date.
-     * @param relative  indicates *which* day-of-the-week (preceding, nearest 
+     * @param dayOfWeek  the day-of-the-week dateRelation to the reference date.
+     * @param relation  indicates *which* day-of-the-week (preceding, nearest
      *                  or following).
      */
-    public RelativeDayOfWeekRule(final AnnualDateRule subrule, 
-            final DayOfWeek dayOfWeek, final int relative) {
+    public RelativeDayOfWeekRule(AnnualDateRule subrule, DayOfWeek dayOfWeek, DateRelation relation) {
         this.subrule = subrule;
         this.dayOfWeek = dayOfWeek;
-        this.relative = relative;
+        this.dateRelation = relation;
     }
 
     /**
@@ -130,25 +126,25 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
     }
 
     /**
-     * Returns the 'relative' attribute, that determines *which* 
+     * Returns the 'dateRelation' attribute, that determines *which*
      * day-of-the-week we are interested in (SerialDate.PRECEDING, 
      * SerialDate.NEAREST or SerialDate.FOLLOWING).
      *
-     * @return The 'relative' attribute.
+     * @return The 'dateRelation' attribute.
      */
-    public int getRelative() {
-        return this.relative;
+    public DateRelation getDateRelation() {
+        return this.dateRelation;
     }
 
     /**
-     * Sets the 'relative' attribute (SerialDate.PRECEDING, SerialDate.NEAREST,
+     * Sets the 'dateRelation' attribute (SerialDate.PRECEDING, SerialDate.NEAREST,
      * SerialDate.FOLLOWING).
      *
-     * @param relative  determines *which* day-of-the-week is selected by this 
+     * @param dateRelation  determines *which* day-of-the-week is selected by this
      *                  rule.
      */
-    public void setRelative(final int relative) {
-        this.relative = relative;
+    public void setDateRelation(DateRelation dateRelation) {
+        this.dateRelation = dateRelation;
     }
 
     /**
@@ -184,17 +180,17 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
 
         // calculate the date...
         DayDate result = null;
-        final DayDate base = this.subrule.getDate(year);
+        DayDate base = subrule.getDate(year);
 
         if (base != null) {
-            switch (this.relative) {
-                case(DayDate.PRECEDING):
+            switch (dateRelation) {
+                case PRECEDING:
                     result = base.getPreviousDayOfWeek(this.dayOfWeek);
                     break;
-                case(DayDate.NEAREST):
+                case NEAREST:
                     result = base.getNearestDayOfWeek(this.dayOfWeek);
                     break;
-                case(DayDate.FOLLOWING):
+                case FOLLOWING:
                     result = base.getFollowingDayOfWeek(this.dayOfWeek);
                     break;
                 default:

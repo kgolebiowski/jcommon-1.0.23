@@ -133,24 +133,6 @@ public abstract class DayDate implements Comparable, Serializable {
     public static final int INCLUDE_BOTH = 3;
 
     /**
-     * Useful constant for specifying a day of the week relative to a fixed
-     * date.
-     */
-    public static final int PRECEDING = -1;
-
-    /**
-     * Useful constant for specifying a day of the week relative to a fixed
-     * date.
-     */
-    public static final int NEAREST = 0;
-
-    /**
-     * Useful constant for specifying a day of the week relative to a fixed
-     * date.
-     */
-    public static final int FOLLOWING = 1;
-
-    /**
      * Default constructor.
      */
     protected DayDate() {
@@ -270,10 +252,6 @@ public abstract class DayDate implements Comparable, Serializable {
      * is BEFORE the base date.
      */
     public DayDate getPreviousDayOfWeek(DayOfWeek targetWeekday) {
-
-//        DayOfWeek.make(targetWeekday)
-//                .orElseThrow(() -> new IllegalArgumentException("Invalid day-of-the-week code."));
-
         int adjust;
         int baseDOW = this.getDayOfWeek().index;
         if (baseDOW > targetWeekday.index) {
@@ -334,28 +312,6 @@ public abstract class DayDate implements Comparable, Serializable {
         return DayDateFactory.makeDate(
                 DayDate.lastDayOfMonth(base.getMonth(), base.getYYYY()),
                 base.getMonth(), base.getYYYY());
-    }
-
-    /**
-     * Returns a string representing the supplied 'relative'.
-     * <p>
-     * Need to find a better approach.
-     *
-     * @param relative a constant representing the 'relative'.
-     * @return a string representing the supplied 'relative'.
-     */
-    public static String relativeToString(final int relative) {
-        switch (relative) {
-            case DayDate.PRECEDING:
-                return "Preceding";
-            case DayDate.NEAREST:
-                return "Nearest";
-            case DayDate.FOLLOWING:
-                return "Following";
-            default:
-                return "ERROR : Relative To String";
-        }
-
     }
 
     /**
