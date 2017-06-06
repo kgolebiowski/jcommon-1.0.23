@@ -1,5 +1,7 @@
 package org.jfree.date;
 
+import org.jfree.date.units.Month;
+
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -15,7 +17,7 @@ public class SpreadsheetDateFactory extends DayDateFactory {
     }
 
     @Override
-    protected DayDate _makeDate(int day, DayDate.Month month, int year) {
+    protected DayDate _makeDate(int day, Month month, int year) {
         return new SpreadsheetDate(day, month.index, year);
     }
 

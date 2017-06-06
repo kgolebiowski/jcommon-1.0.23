@@ -49,6 +49,7 @@ package org.jfree.date;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jfree.date.units.Month;
 
 import java.io.*;
 import java.time.DayOfWeek;
@@ -56,9 +57,9 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import static java.time.temporal.TemporalAdjusters.next;
-import static org.jfree.date.DayDate.DayOfWeek.*;
-import static org.jfree.date.DayDate.Month.DECEMBER;
-import static org.jfree.date.DayDate.Month.JANUARY;
+import static org.jfree.date.units.DayOfWeek.*;
+import static org.jfree.date.units.Month.DECEMBER;
+import static org.jfree.date.units.Month.JANUARY;
 
 /**
  * Some JUnit tests for the {@link DayDate} class.
@@ -92,7 +93,7 @@ public class DayDateTest extends TestCase {
      * Problem set up.
      */
     protected void setUp() {
-        this.nov9Y2001 = DayDateFactory.makeDate(9, DayDate.Month.NOVEMBER.index, 2001);
+        this.nov9Y2001 = DayDateFactory.makeDate(9, Month.NOVEMBER.index, 2001);
     }
 
     /**
@@ -108,7 +109,7 @@ public class DayDateTest extends TestCase {
      * A test case for a reported bug, now fixed.
      */
     public void testAddMonthsTo5Oct2003() {
-        final DayDate d1 = DayDateFactory.makeDate(5, DayDate.Month.OCTOBER.index, 2003);
+        final DayDate d1 = DayDateFactory.makeDate(5, Month.OCTOBER.index, 2003);
         final DayDate d2 = DayDate.addMonths(2, d1);
         assertEquals(d2, DayDateFactory.makeDate(5, DECEMBER.index, 2003));
     }
@@ -188,7 +189,7 @@ public class DayDateTest extends TestCase {
      */
     public void testStringToWeekday() {
 
-        Optional<DayDate.DayOfWeek> weekday = DayDate.stringToWeekdayCode("Monday");
+        Optional<org.jfree.date.units.DayOfWeek> weekday = DayDate.stringToWeekdayCode("Monday");
         assertEquals(Optional.of(MONDAY), weekday);
 
         weekday = DayDate.stringToWeekdayCode("Friday");
@@ -223,7 +224,7 @@ public class DayDateTest extends TestCase {
      */
     public void testStringToMonthCode() {
 
-        Optional<DayDate.Month> m = DayDate.stringToMonthCode("1");
+        Optional<Month> m = DayDate.stringToMonthCode("1");
         assertEquals(Optional.of(JANUARY), m);
 
         m = DayDate.stringToMonthCode("January");
@@ -368,8 +369,8 @@ public class DayDateTest extends TestCase {
     }
 
     public void testMakeMonthFromItsIndex() {
-        assertEquals(Optional.of(JANUARY), DayDate.Month.make(1));
-        assertEquals(Optional.of(DECEMBER), DayDate.Month.make(12));
-        assertEquals(false, DayDate.Month.make(13).isPresent());
+        assertEquals(Optional.of(JANUARY), Month.make(1));
+        assertEquals(Optional.of(DECEMBER), Month.make(12));
+        assertEquals(false, Month.make(13).isPresent());
     }
 }

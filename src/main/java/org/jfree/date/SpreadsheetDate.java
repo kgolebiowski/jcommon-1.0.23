@@ -55,6 +55,8 @@
 
 package org.jfree.date;
 
+import org.jfree.date.units.Month;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -128,8 +130,8 @@ public class SpreadsheetDate extends DayDate {
             );
         }
 
-        if ((month >= DayDate.Month.JANUARY.index) 
-                && (month <= DayDate.Month.DECEMBER.index)) {
+        if ((month >= Month.JANUARY.index)
+                && (month <= Month.DECEMBER.index)) {
             this.month = month;
         }
         else {
@@ -461,7 +463,7 @@ public class SpreadsheetDate extends DayDate {
     private int calcSerial(final int d, final int m, final int y) {
         final int yy = ((y - 1900) * 365) + DayDate.leapYearCount(y - 1);
         int mm = DayDate.AGGREGATE_DAYS_TO_END_OF_PRECEDING_MONTH[m];
-        if (m > DayDate.Month.FEBRUARY.index) {
+        if (m > Month.FEBRUARY.index) {
             if (DayDate.isLeapYear(y)) {
                 mm = mm + 1;
             }

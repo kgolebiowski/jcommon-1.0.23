@@ -46,6 +46,9 @@
 
 package org.jfree.date;
 
+import org.jfree.date.units.DayOfWeek;
+import org.jfree.date.units.Month;
+
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
@@ -113,25 +116,25 @@ public class SerialDateUtilities {
     public int stringToWeekday(final String s) {
 
         if (s.equals(this.weekdays[Calendar.SATURDAY])) {
-            return DayDate.DayOfWeek.SATURDAY.index;
+            return DayOfWeek.SATURDAY.index;
         }
         else if (s.equals(this.weekdays[Calendar.SUNDAY])) {
-            return DayDate.DayOfWeek.SUNDAY.index;
+            return DayOfWeek.SUNDAY.index;
         }
         else if (s.equals(this.weekdays[Calendar.MONDAY])) {
-            return DayDate.DayOfWeek.MONDAY.index;
+            return DayOfWeek.MONDAY.index;
         }
         else if (s.equals(this.weekdays[Calendar.TUESDAY])) {
-            return DayDate.DayOfWeek.TUESDAY.index;
+            return DayOfWeek.TUESDAY.index;
         }
         else if (s.equals(this.weekdays[Calendar.WEDNESDAY])) {
-            return DayDate.DayOfWeek.WEDNESDAY.index;
+            return DayOfWeek.WEDNESDAY.index;
         }
         else if (s.equals(this.weekdays[Calendar.THURSDAY])) {
-            return DayDate.DayOfWeek.THURSDAY.index;
+            return DayOfWeek.THURSDAY.index;
         }
         else {
-            return DayDate.DayOfWeek.FRIDAY.index;
+            return DayOfWeek.FRIDAY.index;
         }
 
     }
@@ -330,7 +333,7 @@ public class SerialDateUtilities {
     public static boolean isLastDayOfFebruary(final DayDate d) {
 
         final int dom;
-        if (d.getMonth() == DayDate.Month.FEBRUARY.index) {
+        if (d.getMonth() == Month.FEBRUARY.index) {
             dom = d.getDayOfMonth();
             if (DayDate.isLeapYear(d.getYYYY())) {
                 return (dom == 29);
@@ -372,7 +375,7 @@ public class SerialDateUtilities {
             y2 = end.getYYYY();
             for (year = y1; year == y2; year++) {
                 if (DayDate.isLeapYear(year)) {
-                    feb29 = DayDateFactory.makeDate(29, DayDate.Month.FEBRUARY.index, year);
+                    feb29 = DayDateFactory.makeDate(29, Month.FEBRUARY.index, year);
                     if (feb29.isInRange(start, end, DayDate.INCLUDE_SECOND)) {
                         count++;
                     }

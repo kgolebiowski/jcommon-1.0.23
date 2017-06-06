@@ -43,6 +43,8 @@
 
 package org.jfree.date;
 
+import org.jfree.date.units.DayOfWeek;
+
 /**
  * An annual date rule that returns a date for each year based on (a) a
  * reference rule; (b) a day of the week; and (c) a selection parameter
@@ -70,7 +72,7 @@ public class RelativeDayOfWeekRule extends AnnualDateRule {
      * Default constructor - builds a rule for the Monday following 1 January.
      */
     public RelativeDayOfWeekRule() {
-        this(new DayAndMonthRule(), DayDate.DayOfWeek.MONDAY.index, DayDate.FOLLOWING);
+        this(new DayAndMonthRule(), DayOfWeek.MONDAY.index, DayDate.FOLLOWING);
     }
 
     /**

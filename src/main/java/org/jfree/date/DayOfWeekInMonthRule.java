@@ -44,6 +44,10 @@
 
 package org.jfree.date;
 
+import org.jfree.date.units.DayOfWeek;
+import org.jfree.date.units.Month;
+import org.jfree.date.units.WeekOfMonth;
+
 /**
  * An annual date rule that specifies the nth day of the week in a given month
  * (for example, the third Wednesday in June, or the last Friday in November).
@@ -65,7 +69,7 @@ public class DayOfWeekInMonthRule extends AnnualDateRule {
      * Default constructor: builds a rule for the first Monday in January by default.
      */
     public DayOfWeekInMonthRule() {
-        this(1, DayDate.DayOfWeek.MONDAY.index, DayDate.Month.JANUARY.index);
+        this(1, DayOfWeek.MONDAY.index, Month.JANUARY.index);
     }
 
     /**
@@ -144,7 +148,7 @@ public class DayOfWeekInMonthRule extends AnnualDateRule {
      */
     public DayDate getDate(final int year) {
         DayDate result;
-        if (this.count != DayDate.WeekOfMonth.LAST.ordinal()) {
+        if (this.count != WeekOfMonth.LAST.ordinal()) {
             // start at the beginning of the month
             result = DayDateFactory.makeDate(1, this.month, year);
             while (result.getDayOfWeek() != this.dayOfWeek) {

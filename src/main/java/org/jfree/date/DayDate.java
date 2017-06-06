@@ -58,11 +58,12 @@
 
 package org.jfree.date;
 
+import org.jfree.date.units.DayOfWeek;
+import org.jfree.date.units.Month;
+
 import java.io.Serializable;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Optional;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -89,50 +90,6 @@ import java.util.stream.Stream;
 public abstract class DayDate implements Comparable, Serializable {
 
     private static final long serialVersionUID = -293716040467423637L;
-
-    public enum Month {
-        JANUARY(1), FEBRUARY(2), MARCH(3), APRIL(4), MAY(5), JUNE(6), JULY(7), AUGUST(8), SEPTEMBER(9), OCTOBER(10),
-        NOVEMBER(11), DECEMBER(12);
-
-        public final int index;
-
-        Month(int index) {
-            this.index = index;
-        }
-
-        public static Optional<Month> make(int monthIndex) {
-            return Arrays.stream(Month.values())
-                    .filter(month -> month.index == monthIndex)
-                    .findAny();
-        }
-    }
-
-    public enum DayOfWeek {
-        MONDAY(Calendar.MONDAY), TUESDAY(Calendar.TUESDAY), WEDNESDAY(Calendar.WEDNESDAY), THURSDAY(Calendar.THURSDAY),
-        FRIDAY(Calendar.FRIDAY), SATURDAY(Calendar.SATURDAY), SUNDAY(Calendar.SUNDAY);
-
-        public final int index;
-
-        DayOfWeek(int dayOfWeekIndex) {
-            this.index = dayOfWeekIndex;
-        }
-
-        public static Optional<DayOfWeek> make(int dayOfWeekIndex) {
-            return Arrays.stream(DayOfWeek.values())
-                    .filter(dayOfWeek -> dayOfWeek.index == dayOfWeekIndex)
-                    .findAny();
-        }
-    }
-
-    public enum WeekOfMonth {
-        LAST, FIRST, SECOND, THIRD, FOURTH;
-
-        public static Optional<WeekOfMonth> make(int index) {
-            return Arrays.stream(WeekOfMonth.values())
-                    .filter(dayOfWeek -> dayOfWeek.ordinal() == index)
-                    .findAny();
-        }
-    }
 
     /**
      * Date format symbols.
@@ -280,7 +237,7 @@ public abstract class DayDate implements Comparable, Serializable {
      */
     public static String monthCodeToString(final int month, final boolean shortened) {
 
-        if (!DayDate.Month.make(month).isPresent()) {
+        if (!Month.make(month).isPresent()) {
             throw new IllegalArgumentException(
                     "SerialDate.monthCodeToString: month outside valid range.");
         }
