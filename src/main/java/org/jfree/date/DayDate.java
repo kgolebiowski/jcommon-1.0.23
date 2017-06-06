@@ -64,6 +64,8 @@ import org.jfree.date.units.Month;
 import java.io.Serializable;
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * An abstract class that defines our requirements for manipulating dates,
@@ -217,7 +219,7 @@ public abstract class DayDate implements Comparable, Serializable {
      * @return a new date.
      */
     public DayDate plusDays(int days) {
-        return DayDateFactory.makeDate(this.toOrdinal() + days);
+        return DayDateFactory.makeDate(this.getOrdinalDay() + days);
     }
 
     /**
@@ -363,15 +365,7 @@ public abstract class DayDate implements Comparable, Serializable {
      *
      * @return the serial number for the date.
      */
-    public abstract int toOrdinal();
-
-    /**
-     * Returns a java.util.Date.  Since java.util.Date has more precision than
-     * SerialDate, we need to define a convention for the 'time of day'.
-     *
-     * @return this as <code>java.util.Date</code>.
-     */
-    public abstract java.util.Date toDate();
+    public abstract int getOrdinalDay();
 
     /**
      * Converts the date to a string.
@@ -380,6 +374,17 @@ public abstract class DayDate implements Comparable, Serializable {
      */
     public String toString() {
         return getDayOfMonth() + "-" + getMonth() + "-" + getYYYY();
+    }
+
+    /**
+     * Returns a <code>java.util.Date</code> equivalent to this date.
+     *
+     * @return The date.
+     */
+    public Date toDate() {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.set(getYYYY(), getMonth().index - 1, getDayOfMonth(), 0, 0, 0);
+        return calendar.getTime();
     }
 
     /**
